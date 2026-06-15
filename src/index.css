@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 248 250 252;
+    --foreground: 30 58 138;
+    --card: 255 255 255;
+    --card-foreground: 15 23 42;
+    --primary: 30 64 175;
+    --primary-foreground: 255 255 255;
+    --secondary: 59 130 246;
+    --secondary-foreground: 255 255 255;
+    --muted: 241 245 249;
+    --muted-foreground: 100 116 139;
+    --accent: 245 158 11;
+    --accent-foreground: 255 255 255;
+    --border: 226 232 240;
+    --radius: 0.5rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900;
+    font-family: 'Fira Sans', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Fira Sans', system-ui, sans-serif;
+    font-weight: 700;
+  }
+
+  .mono {
+    font-family: 'Fira Code', monospace;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-in-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.4s ease-out;
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+  }
+
+  .gradient-header {
+    background: linear-gradient(135deg, #1E40AF 0%, #1e3a8a 50%, #312e81 100%);
+  }
+
+  .stat-card {
+    transition: all 0.2s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(30, 64, 175, 0.15);
+  }
+
+  .tab-active {
+    background: linear-gradient(135deg, #1E40AF, #3B82F6);
+    color: white;
+  }
+
+  .progress-bar {
+    transition: width 0.8s ease-in-out;
+  }
+
+  .pitch-green {
+    background: linear-gradient(180deg, #166534 0%, #15803d 50%, #166534 100%);
+  }
+
+  .team-flag-shadow {
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  }
+
+  .match-card-hover {
+    transition: all 0.25s ease;
+  }
+
+  .match-card-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(30, 64, 175, 0.2);
+  }
+
+  .heat-bar-low { background: linear-gradient(90deg, #22c55e, #86efac); }
+  .heat-bar-mid { background: linear-gradient(90deg, #f59e0b, #fcd34d); }
+  .heat-bar-high { background: linear-gradient(90deg, #ef4444, #f87171); }
+
+  .sim-ball {
+    animation: bounce 1s infinite;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .spin-slow {
+    animation: spin-slow 3s linear infinite;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #f1f5f9; }
+  ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+}
