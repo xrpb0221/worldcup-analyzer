@@ -1,114 +1,104 @@
-import type { Stadium, Weather } from '@/types';
+import type { Stadium, Match } from '@/types';
 
 export const stadiums: Stadium[] = [
-  {
-    id: 'ST1',
-    name: '卢萨尔体育场',
-    city: '卢萨尔',
-    country: '卡塔尔',
-    capacity: 88966,
-    surface: '天然草皮',
-    altitude: 15,
-    builtYear: 2021,
-    description: '2022年世界杯决赛场馆，以珍珠贝为设计灵感，是中东地区最大的体育场。',
-    coordinates: { lat: 25.4374, lng: 51.4977 },
-  },
-  {
-    id: 'ST2',
-    name: '大都会球场',
-    city: '纽约',
-    country: '美国',
-    capacity: 82500,
-    surface: '混合草坪',
-    altitude: 12,
-    builtYear: 2026,
-    description: '2026年世界杯主要场馆之一，位于纽约新泽西州，是美国最大的足球专业场馆。',
-    coordinates: { lat: 40.8136, lng: -74.0745 },
-  },
-  {
-    id: 'ST3',
-    name: 'AT&T体育场',
-    city: '达拉斯',
-    country: '美国',
-    capacity: 105000,
-    surface: '天然草坪',
-    altitude: 146,
-    builtYear: 2009,
-    description: '又称"美国宇宙飞船"，世界最大的拱形建筑，拥有全球最大的活动屋顶。',
-    coordinates: { lat: 32.7480, lng: -97.0929 },
-  },
-  {
-    id: 'ST4',
-    name: '罗斯鲍尔体育场',
-    city: '洛杉矶',
-    country: '美国',
-    capacity: 93607,
-    surface: '天然草坪',
-    altitude: 75,
-    builtYear: 1923,
-    description: '历史悠久的经典球场，改建后将承办2026年世界杯比赛，包括决赛。',
-    coordinates: { lat: 34.0139, lng: -118.2883 },
-  },
-  {
-    id: 'ST5',
-    name: '阿兹特克球场',
-    city: '墨西哥城',
-    country: '墨西哥',
-    capacity: 87523,
-    surface: '天然草坪',
-    altitude: 2240,
-    builtYear: 1966,
-    description: '两届世界杯决赛举办地，位于高海拔地区，传奇的"上帝之手"和"世纪进球"诞生地。',
-    coordinates: { lat: 19.3029, lng: -99.1505 },
-  },
-  {
-    id: 'ST6',
-    name: 'BMO球场',
-    city: '多伦多',
-    country: '加拿大',
-    capacity: 30991,
-    surface: '混合草坪',
-    altitude: 76,
-    builtYear: 2007,
-    description: '加拿大TFC主场，升级改造后作为世界杯赛场使用。',
-    coordinates: { lat: 43.6332, lng: -79.4178 },
-  },
-  {
-    id: 'ST7',
-    name: '温哥华BC广场',
-    city: '温哥华',
-    country: '加拿大',
-    capacity: 54500,
-    surface: '人工草坪',
-    altitude: 3,
-    builtYear: 1983,
-    description: '可伸缩屋顶设计，能应对太平洋地区多变的气候条件。',
-    coordinates: { lat: 49.2776, lng: -123.1119 },
-  },
-  {
-    id: 'ST8',
-    name: '世纪球场',
-    city: '休斯顿',
-    country: '美国',
-    capacity: 72220,
-    surface: '混合草坪',
-    altitude: 13,
-    builtYear: 2002,
-    description: '休斯顿主场，以先进的温控系统著称，可应对德克萨斯州炎热气候。',
-    coordinates: { lat: 29.6847, lng: -95.4107 },
-  },
+  { id: 'estadio-azteca', name: '墨西哥城体育场', nameEn: 'Estadio Azteca', city: '墨西哥城', cityEn: 'Mexico City', country: '墨西哥', capacity: 87500, surface: '天然草坪', altitude: 2240, builtYear: 1966, description: '世界杯传奇球场，曾举办1970和1986年世界杯决赛，世界足球圣地。揭幕战举办地。', matches: 5, keyMatches: ['揭幕战', '1/16决赛', '1/8决赛'], coordinates: { lat: 19.3024, lng: -99.1506 } },
+  { id: 'guadalajara', name: '瓜达拉哈拉体育场', nameEn: 'Estadio Akron', city: '瓜达拉哈拉', cityEn: 'Guadalajara', country: '墨西哥', capacity: 48000, surface: '天然草坪', altitude: 1566, builtYear: 2010, description: '墨西哥最现代化的球场之一，瓜达拉哈拉俱乐部主场。', matches: 4, keyMatches: ['小组赛×4'], coordinates: { lat: 20.7098, lng: -103.3277 } },
+  { id: 'monterrey', name: '蒙特雷体育场', nameEn: 'Estadio BBVA', city: '蒙特雷', cityEn: 'Monterrey', country: '墨西哥', capacity: 53500, surface: '天然草坪', altitude: 537, builtYear: 2015, description: '墨西哥东北部最大球场，承办多场重要赛事。', matches: 4, keyMatches: ['小组赛×3', '1/16决赛'], coordinates: { lat: 25.7626, lng: -100.3824 } },
+  { id: 'vancouver', name: '温哥华BC广场', nameEn: 'BC Place', city: '温哥华', cityEn: 'Vancouver', country: '加拿大', capacity: 54500, surface: '人工草坪', altitude: 15, builtYear: 1983, description: '加拿大西海岸地标球场，2015女足世界杯决赛场地。', matches: 7, keyMatches: ['小组赛×5', '1/16决赛', '1/8决赛'], coordinates: { lat: 49.2839, lng: -123.1127 } },
+  { id: 'toronto', name: '多伦多体育场', nameEn: 'BMO Field', city: '多伦多', cityEn: 'Toronto', country: '加拿大', capacity: 45000, surface: '天然草坪', altitude: 81, builtYear: 2007, description: '加拿大最大城市核心球场，MLS多伦多FC主场。', matches: 6, keyMatches: ['小组赛×5', '1/16决赛'], coordinates: { lat: 43.6347, lng: -79.4173 } },
+  { id: 'dallas', name: '达拉斯体育场', nameEn: 'AT&T Stadium', city: '达拉斯', cityEn: 'Dallas', country: '美国', capacity: 93000, surface: '人工草坪', altitude: 182, builtYear: 2009, description: '本届世界杯最大球场！承办场次最多（9场），包含一场半决赛。', matches: 9, keyMatches: ['小组赛×5', '1/16决赛×2', '1/8决赛', '半决赛'], coordinates: { lat: 32.7473, lng: -97.0945 } },
+  { id: 'new-york', name: '纽约新泽西体育场', nameEn: 'MetLife Stadium', city: '纽约/新泽西', cityEn: 'New York/New Jersey', country: '美国', capacity: 82500, surface: '天然草坪', altitude: 6, builtYear: 2010, description: '🏆 决赛场地！位于大纽约都会区，是NFL两大球队共用主场。', matches: 8, keyMatches: ['决赛', '小组赛×5', '1/16决赛', '1/8决赛'], coordinates: { lat: 40.8135, lng: -74.0745 } },
+  { id: 'los-angeles', name: '洛杉矶体育场', nameEn: 'SoFi Stadium', city: '洛杉矶', cityEn: 'Los Angeles', country: '美国', capacity: 70240, surface: '天然草坪', altitude: 31, builtYear: 2020, description: '全球最昂贵的球场之一，超级碗举办地。', matches: 8, keyMatches: ['小组赛×5', '1/16决赛×2', '1/4决赛'], coordinates: { lat: 33.9511, lng: -118.3419 } },
+  { id: 'atlanta', name: '亚特兰大体育场', nameEn: 'Mercedes-Benz Stadium', city: '亚特兰大', cityEn: 'Atlanta', country: '美国', capacity: 71000, surface: '天然草坪', altitude: 308, builtYear: 2017, description: '可伸缩屋顶球场，美国最先进的体育设施之一。承办一场半决赛。', matches: 8, keyMatches: ['小组赛×5', '1/16决赛', '1/8决赛', '半决赛'], coordinates: { lat: 33.7555, lng: -84.4010 } },
+  { id: 'houston', name: '休斯敦体育场', nameEn: 'NRG Stadium', city: '休斯敦', cityEn: 'Houston', country: '美国', capacity: 72000, surface: '天然草坪', altitude: 15, builtYear: 2002, description: '德克萨斯州最大球场，可伸缩屋顶。', matches: 7, keyMatches: ['小组赛×5', '1/16决赛', '1/8决赛'], coordinates: { lat: 29.6850, lng: -95.4114 } },
+  { id: 'miami', name: '迈阿密体育场', nameEn: 'Hard Rock Stadium', city: '迈阿密', cityEn: 'Miami', country: '美国', capacity: 65000, surface: '天然草坪', altitude: 3, builtYear: 1987, description: '🥉 季军战场地！佛罗里达州标志性球场，热带气候。', matches: 7, keyMatches: ['小组赛×4', '1/16决赛', '1/4决赛', '季军战'], coordinates: { lat: 25.9580, lng: -80.2389 } },
+  { id: 'boston', name: '波士顿体育场', nameEn: 'Gillette Stadium', city: '波士顿', cityEn: 'Boston', country: '美国', capacity: 65000, surface: '天然草坪', altitude: 24, builtYear: 2002, description: '新英格兰地区最大球场，NFL爱国者队主场。', matches: 7, keyMatches: ['小组赛×5', '1/16决赛', '1/4决赛'], coordinates: { lat: 42.0909, lng: -71.2643 } },
+  { id: 'kansas-city', name: '堪萨斯城体育场', nameEn: 'Arrowhead Stadium', city: '堪萨斯城', cityEn: 'Kansas City', country: '美国', capacity: 76600, surface: '天然草坪', altitude: 274, builtYear: 1972, description: '美国最响亮的球场，球迷氛围极佳。', matches: 6, keyMatches: ['小组赛×4', '1/16决赛', '1/4决赛'], coordinates: { lat: 39.0489, lng: -94.4839 } },
+  { id: 'philadelphia', name: '费城体育场', nameEn: 'Lincoln Financial Field', city: '费城', cityEn: 'Philadelphia', country: '美国', capacity: 69000, surface: '天然草坪', altitude: 10, builtYear: 2003, description: '美国东海岸重要球场，费城老鹰队主场。', matches: 6, keyMatches: ['小组赛×5', '1/8决赛'], coordinates: { lat: 39.9009, lng: -75.1674 } },
+  { id: 'san-francisco', name: '旧金山湾区体育场', nameEn: 'Levi\'s Stadium', city: '旧金山湾区', cityEn: 'San Francisco Bay Area', country: '美国', capacity: 70900, surface: '天然草坪', altitude: 6, builtYear: 2014, description: '硅谷核心球场，科技与体育的完美结合。', matches: 6, keyMatches: ['小组赛×5', '1/16决赛'], coordinates: { lat: 37.4033, lng: -121.9696 } },
+  { id: 'seattle', name: '西雅图体育场', nameEn: 'Lumen Field', city: '西雅图', cityEn: 'Seattle', country: '美国', capacity: 68700, surface: '天然草坪', altitude: 4, builtYear: 2002, description: '美国西北部最大球场，MLS最具氛围的主场。', matches: 6, keyMatches: ['小组赛×4', '1/16决赛', '1/8决赛'], coordinates: { lat: 47.5952, lng: -122.3316 } },
 ];
 
-export const getWeatherByCity = (city: string): Weather => {
-  const weatherMap: Record<string, Weather> = {
-    '卢萨尔': { temp: 32, humidity: 68, windSpeed: 12, condition: '晴天', icon: '☀️' },
-    '纽约': { temp: 24, humidity: 58, windSpeed: 15, condition: '多云', icon: '⛅' },
-    '达拉斯': { temp: 35, humidity: 45, windSpeed: 18, condition: '晴天', icon: '☀️' },
-    '洛杉矶': { temp: 26, humidity: 52, windSpeed: 10, condition: '晴间多云', icon: '🌤️' },
-    '墨西哥城': { temp: 18, humidity: 72, windSpeed: 8, condition: '阴天', icon: '🌥️' },
-    '多伦多': { temp: 22, humidity: 65, windSpeed: 14, condition: '小雨', icon: '🌧️' },
-    '温哥华': { temp: 16, humidity: 78, windSpeed: 20, condition: '阵雨', icon: '🌦️' },
-    '休斯顿': { temp: 33, humidity: 70, windSpeed: 16, condition: '晴天', icon: '☀️' },
-  };
-  return weatherMap[city] || { temp: 25, humidity: 60, windSpeed: 12, condition: '晴天', icon: '☀️' };
-};
+// 2026美加墨世界杯真实赛程
+export const matches: Match[] = [
+  // === A组首轮 ===
+  { id: 'm1', homeTeamId: 'mexico', awayTeamId: 'south-africa', homeTeamName: '墨西哥', awayTeamName: '南非', date: '2026-06-12', time: '03:00', stadiumId: 'estadio-azteca', group: 'A', stage: '小组赛A组', homeScore: 2, awayScore: 0, status: 'finished', scorers: ['基尼奥内斯', '劳尔·希门尼斯'] },
+  { id: 'm2', homeTeamId: 'south-korea', awayTeamId: 'czech', homeTeamName: '韩国', awayTeamName: '捷克', date: '2026-06-12', time: '06:00', stadiumId: 'guadalajara', group: 'A', stage: '小组赛A组', homeScore: 2, awayScore: 1, status: 'finished' },
+
+  // === B组首轮 ===
+  { id: 'm3', homeTeamId: 'canada', awayTeamId: 'bosnia', homeTeamName: '加拿大', awayTeamName: '波黑', date: '2026-06-13', time: '03:00', stadiumId: 'toronto', group: 'B', stage: '小组赛B组', homeScore: 1, awayScore: 1, status: 'finished' },
+  { id: 'm4', homeTeamId: 'qatar', awayTeamId: 'switzerland', homeTeamName: '卡塔尔', awayTeamName: '瑞士', date: '2026-06-14', time: '06:00', stadiumId: 'vancouver', group: 'B', stage: '小组赛B组', homeScore: 1, awayScore: 1, status: 'finished' },
+
+  // === C组首轮 ===
+  { id: 'm5', homeTeamId: 'brazil', awayTeamId: 'morocco', homeTeamName: '巴西', awayTeamName: '摩洛哥', date: '2026-06-14', time: '09:00', stadiumId: 'los-angeles', group: 'C', stage: '小组赛C组', homeScore: 1, awayScore: 1, status: 'finished' },
+  { id: 'm6', homeTeamId: 'scotland', awayTeamId: 'haiti', homeTeamName: '苏格兰', awayTeamName: '海地', date: '2026-06-14', time: '06:00', stadiumId: 'houston', group: 'C', stage: '小组赛C组', homeScore: 1, awayScore: 0, status: 'finished' },
+
+  // === D组首轮 ===
+  { id: 'm7', homeTeamId: 'usa', awayTeamId: 'paraguay', homeTeamName: '美国', awayTeamName: '巴拉圭', date: '2026-06-13', time: '09:00', stadiumId: 'atlanta', group: 'D', stage: '小组赛D组', homeScore: 4, awayScore: 1, status: 'finished' },
+  { id: 'm8', homeTeamId: 'australia', awayTeamId: 'turkey', homeTeamName: '澳大利亚', awayTeamName: '土耳其', date: '2026-06-14', time: '09:00', stadiumId: 'san-francisco', group: 'D', stage: '小组赛D组', homeScore: 2, awayScore: 0, status: 'finished' },
+
+  // === E组首轮 ===
+  { id: 'm9', homeTeamId: 'germany', awayTeamId: 'curacao', homeTeamName: '德国', awayTeamName: '库拉索', date: '2026-06-15', time: '06:00', stadiumId: 'dallas', group: 'E', stage: '小组赛E组', homeScore: 7, awayScore: 1, status: 'finished', scorers: ['恩梅查', '施洛特贝克', '哈弗茨×2', '穆西亚拉', '布朗', '翁达夫'] },
+  { id: 'm10', homeTeamId: 'ivory-coast', awayTeamId: 'ecuador', homeTeamName: '科特迪瓦', awayTeamName: '厄瓜多尔', date: '2026-06-15', time: '09:00', stadiumId: 'boston', group: 'E', stage: '小组赛E组', homeScore: 1, awayScore: 0, status: 'finished' },
+
+  // === F组首轮 ===
+  { id: 'm11', homeTeamId: 'netherlands', awayTeamId: 'japan', homeTeamName: '荷兰', awayTeamName: '日本', date: '2026-06-15', time: '06:00', stadiumId: 'new-york', group: 'F', stage: '小组赛F组', homeScore: 2, awayScore: 2, status: 'finished', scorers: ['范戴克', '萨默维尔', '中村敬斗', '镰田大地'] },
+  { id: 'm12', homeTeamId: 'sweden', awayTeamId: 'tunisia', homeTeamName: '瑞典', awayTeamName: '突尼斯', date: '2026-06-15', time: '09:00', stadiumId: 'kansas-city', group: 'F', stage: '小组赛F组', homeScore: 5, awayScore: 1, status: 'finished', scorers: ['伊萨克', '阿亚里×2', '哲凯赖什', '库卢塞夫斯基', '雷基克'] },
+
+  // === G组首轮（6月16日）===
+  { id: 'm13', homeTeamId: 'belgium', awayTeamId: 'new-zealand', homeTeamName: '比利时', awayTeamName: '新西兰', date: '2026-06-16', time: '06:00', stadiumId: 'miami', group: 'G', stage: '小组赛G组', homeScore: 3, awayScore: 0, status: 'finished', scorers: ['德布劳内', '卢卡库', '多库'] },
+  { id: 'm14', homeTeamId: 'egypt', awayTeamId: 'iran', homeTeamName: '埃及', awayTeamName: '伊朗', date: '2026-06-16', time: '09:00', stadiumId: 'seattle', group: 'G', stage: '小组赛G组', homeScore: 1, awayScore: 1, status: 'finished', scorers: ['萨拉赫', '塔雷米'] },
+
+  // === H组首轮（6月16日）===
+  { id: 'm15', homeTeamId: 'spain', awayTeamId: 'cape-verde', homeTeamName: '西班牙', awayTeamName: '佛得角', date: '2026-06-16', time: '06:00', stadiumId: 'philadelphia', group: 'H', stage: '小组赛H组', homeScore: 4, awayScore: 0, status: 'finished', scorers: ['亚马尔', '罗德里', '佩德里', '奥尔莫'] },
+  { id: 'm16', homeTeamId: 'saudi-arabia', awayTeamId: 'uruguay', homeTeamName: '沙特阿拉伯', awayTeamName: '乌拉圭', date: '2026-06-16', time: '09:00', stadiumId: 'houston', group: 'H', stage: '小组赛H组', homeScore: 0, awayScore: 2, status: 'finished', scorers: ['努涅斯', '巴尔韦德'] },
+
+  // === I组首轮（6月17日）===
+  { id: 'm17', homeTeamId: 'france', awayTeamId: 'iraq', homeTeamName: '法国', awayTeamName: '伊拉克', date: '2026-06-17', time: '06:00', stadiumId: 'los-angeles', group: 'I', stage: '小组赛I组', homeScore: 3, awayScore: 0, status: 'finished', scorers: ['姆巴佩×2', '格列兹曼'] },
+  { id: 'm18', homeTeamId: 'senegal', awayTeamId: 'norway', homeTeamName: '塞内加尔', awayTeamName: '挪威', date: '2026-06-17', time: '09:00', stadiumId: 'atlanta', group: 'I', stage: '小组赛I组', homeScore: 1, awayScore: 2, status: 'finished', scorers: ['马内', '哈兰德×2'] },
+
+  // === J组首轮（6月17日）===
+  { id: 'm19', homeTeamId: 'argentina', awayTeamId: 'algeria', homeTeamName: '阿根廷', awayTeamName: '阿尔及利亚', date: '2026-06-17', time: '06:00', stadiumId: 'dallas', group: 'J', stage: '小组赛J组', homeScore: 3, awayScore: 0, status: 'finished', scorers: ['梅西', '阿尔瓦雷斯', '麦卡利斯特'] },
+  { id: 'm20', homeTeamId: 'austria', awayTeamId: 'jordan', homeTeamName: '奥地利', awayTeamName: '约旦', date: '2026-06-17', time: '09:00', stadiumId: 'san-francisco', group: 'J', stage: '小组赛J组', homeScore: 2, awayScore: 0, status: 'finished', scorers: ['萨比策', '莱默尔'] },
+
+  // === K组首轮（6月18日）===
+  { id: 'm21', homeTeamId: 'portugal', awayTeamId: 'uzbekistan', homeTeamName: '葡萄牙', awayTeamName: '乌兹别克斯坦', date: '2026-06-18', time: '06:00', stadiumId: 'new-york', group: 'K', stage: '小组赛K组', homeScore: 4, awayScore: 0, status: 'finished', scorers: ['C罗', '莱奥', 'B·席尔瓦', '若昂·菲利克斯'] },
+  { id: 'm22', homeTeamId: 'dr-congo', awayTeamId: 'colombia', homeTeamName: '民主刚果', awayTeamName: '哥伦比亚', date: '2026-06-18', time: '09:00', stadiumId: 'boston', group: 'K', stage: '小组赛K组', homeScore: 0, awayScore: 2, status: 'finished', scorers: ['迪亚斯', 'J罗'] },
+
+  // === L组首轮（6月18日）===
+  { id: 'm23', homeTeamId: 'england', awayTeamId: 'panama', homeTeamName: '英格兰', awayTeamName: '巴拿马', date: '2026-06-18', time: '06:00', stadiumId: 'philadelphia', group: 'L', stage: '小组赛L组', homeScore: 5, awayScore: 0, status: 'finished', scorers: ['凯恩×2', '贝林厄姆', '福登', '萨卡'] },
+  { id: 'm24', homeTeamId: 'croatia', awayTeamId: 'ghana', homeTeamName: '克罗地亚', awayTeamName: '加纳', date: '2026-06-18', time: '09:00', stadiumId: 'vancouver', group: 'L', stage: '小组赛L组', homeScore: 2, awayScore: 1, status: 'finished', scorers: ['莫德里奇', '格瓦尔迪奥尔', '库杜斯'] },
+
+  // === A组第2轮 ===
+  { id: 'm25', homeTeamId: 'mexico', awayTeamId: 'south-korea', homeTeamName: '墨西哥', awayTeamName: '韩国', date: '2026-06-17', time: '06:00', stadiumId: 'estadio-azteca', group: 'A', stage: '小组赛A组', status: 'upcoming' },
+  { id: 'm26', homeTeamId: 'czech', awayTeamId: 'south-africa', homeTeamName: '捷克', awayTeamName: '南非', date: '2026-06-17', time: '09:00', stadiumId: 'monterrey', group: 'A', stage: '小组赛A组', status: 'upcoming' },
+
+  // === B组第2轮 ===
+  { id: 'm27', homeTeamId: 'canada', awayTeamId: 'switzerland', homeTeamName: '加拿大', awayTeamName: '瑞士', date: '2026-06-18', time: '06:00', stadiumId: 'vancouver', group: 'B', stage: '小组赛B组', status: 'upcoming' },
+  { id: 'm28', homeTeamId: 'bosnia', awayTeamId: 'qatar', homeTeamName: '波黑', awayTeamName: '卡塔尔', date: '2026-06-18', time: '09:00', stadiumId: 'toronto', group: 'B', stage: '小组赛B组', status: 'upcoming' },
+
+  // === C组第2轮 ===
+  { id: 'm29', homeTeamId: 'brazil', awayTeamId: 'scotland', homeTeamName: '巴西', awayTeamName: '苏格兰', date: '2026-06-19', time: '06:00', stadiumId: 'los-angeles', group: 'C', stage: '小组赛C组', status: 'upcoming' },
+  { id: 'm30', homeTeamId: 'morocco', awayTeamId: 'haiti', homeTeamName: '摩洛哥', awayTeamName: '海地', date: '2026-06-19', time: '09:00', stadiumId: 'miami', group: 'C', stage: '小组赛C组', status: 'upcoming' },
+
+  // === D组第2轮 ===
+  { id: 'm31', homeTeamId: 'usa', awayTeamId: 'australia', homeTeamName: '美国', awayTeamName: '澳大利亚', date: '2026-06-19', time: '06:00', stadiumId: 'atlanta', group: 'D', stage: '小组赛D组', status: 'upcoming' },
+  { id: 'm32', homeTeamId: 'paraguay', awayTeamId: 'turkey', homeTeamName: '巴拉圭', awayTeamName: '土耳其', date: '2026-06-19', time: '09:00', stadiumId: 'seattle', group: 'D', stage: '小组赛D组', status: 'upcoming' },
+
+  // === E组第2轮 ===
+  { id: 'm33', homeTeamId: 'germany', awayTeamId: 'ivory-coast', homeTeamName: '德国', awayTeamName: '科特迪瓦', date: '2026-06-20', time: '06:00', stadiumId: 'dallas', group: 'E', stage: '小组赛E组', status: 'upcoming' },
+  { id: 'm34', homeTeamId: 'curacao', awayTeamId: 'ecuador', homeTeamName: '库拉索', awayTeamName: '厄瓜多尔', date: '2026-06-20', time: '09:00', stadiumId: 'houston', group: 'E', stage: '小组赛E组', status: 'upcoming' },
+
+  // === F组第2轮 ===
+  { id: 'm35', homeTeamId: 'netherlands', awayTeamId: 'sweden', homeTeamName: '荷兰', awayTeamName: '瑞典', date: '2026-06-20', time: '06:00', stadiumId: 'new-york', group: 'F', stage: '小组赛F组', status: 'upcoming' },
+  { id: 'm36', homeTeamId: 'japan', awayTeamId: 'tunisia', homeTeamName: '日本', awayTeamName: '突尼斯', date: '2026-06-20', time: '09:00', stadiumId: 'boston', group: 'F', stage: '小组赛F组', status: 'upcoming' },
+
+  // === 淘汰赛 ===
+  { id: 'r16-1', homeTeamId: '', awayTeamId: '', homeTeamName: '1A', awayTeamName: '2B', date: '2026-06-28', time: '06:00', stadiumId: 'estadio-azteca', stage: '1/16决赛', status: 'upcoming' },
+  { id: 'r16-2', homeTeamId: '', awayTeamId: '', homeTeamName: '1B', awayTeamName: '2A', date: '2026-06-28', time: '09:00', stadiumId: 'toronto', stage: '1/16决赛', status: 'upcoming' },
+  { id: 'qf-1', homeTeamId: '', awayTeamId: '', homeTeamName: '胜者1', awayTeamName: '胜者2', date: '2026-07-10', time: '06:00', stadiumId: 'los-angeles', stage: '1/4决赛', status: 'upcoming' },
+  { id: 'sf-1', homeTeamId: '', awayTeamId: '', homeTeamName: '1/4决赛胜者', awayTeamName: '1/4决赛胜者', date: '2026-07-15', time: '06:00', stadiumId: 'dallas', stage: '半决赛', status: 'upcoming' },
+  { id: 'sf-2', homeTeamId: '', awayTeamId: '', homeTeamName: '1/4决赛胜者', awayTeamName: '1/4决赛胜者', date: '2026-07-16', time: '06:00', stadiumId: 'atlanta', stage: '半决赛', status: 'upcoming' },
+  { id: 'third', homeTeamId: '', awayTeamId: '', homeTeamName: '半决赛负者', awayTeamName: '半决赛负者', date: '2026-07-19', time: '06:00', stadiumId: 'miami', stage: '季军战', status: 'upcoming' },
+  { id: 'final', homeTeamId: '', awayTeamId: '', homeTeamName: '半决赛胜者', awayTeamName: '半决赛胜者', date: '2026-07-20', time: '03:00', stadiumId: 'new-york', stage: '决赛', status: 'upcoming' },
+];

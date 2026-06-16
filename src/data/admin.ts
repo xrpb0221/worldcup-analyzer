@@ -1,4 +1,4 @@
-import type { Team, Player, Stadium, Weather } from '@/types';
+import type { Team, Stadium } from '@/types';
 
 const ADMIN_PASSWORD = 'worldcup2026';
 

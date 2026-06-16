@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { adminAuth, getAdminTeams, saveAdminTeams, getAdminStadiums, saveAdminStadiums, exportAllData, importAllData, resetAdminData } from '@/data/admin';
 import { teams as defaultTeams } from '@/data/teams';
 import { stadiums as defaultStadiums } from '@/data/stadiums';
-import type { Team, Player, Stadium } from '@/types';
-import { Lock, Users, MapPin, Download, Upload, RotateCcw, LogOut, Plus, Trash2, Edit3, Save, X, ChevronDown, ChevronRight, Shield, Star } from 'lucide-react';
+import type { Team, Player, Stadium, User } from '@/types';
+import { getUserStats, clearAllStats } from '@/data/stats';
+import type { UserStats } from '@/data/stats';
+import { getUsers } from '@/data/auth';
+import { Lock, Users, MapPin, Download, Upload, RotateCcw, LogOut, Plus, Trash2, Edit3, Save, X, ChevronDown, ChevronRight, Shield, Star, BarChart3, TrendingUp, Eye, UserPlus, Clock, Activity, Trash } from 'lucide-react';
 
 function LoginForm({ onLogin }: { onLogin: () => void }) {
   const [password, setPassword] = useState('');
@@ -279,7 +282,299 @@ function StadiumEditor({ stadium, onSave, onCancel }: { stadium: Stadium; onSave
   );
 }
 
-type AdminTab = 'teams' | 'stadiums' | 'settings';
+type AdminTab = 'teams' | 'stadiums' | 'users' | 'settings';
+
+// ========== 用户统计面板 ==========
+function UserStatsPanel() {
+  const [stats, setStats] = useState<UserStats | null>(null);
+  const [userList, setUserList] = useState<User[]>([]);
+  const [detailUser, setDetailUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    setStats(getUserStats());
+    setUserList(getUsers());
+  }, []);
+
+  if (!stats) return null;
+
+  const statCards = [
+    { label: '总用户数', value: stats.totalUsers, icon: Users, color: 'from-blue-500 to-blue-600', bgColor: 'bg-blue-50', textColor: 'text-blue-600' },
+    { label: '今日新增', value: stats.todayNewUsers, icon: UserPlus, color: 'from-emerald-500 to-emerald-600', bgColor: 'bg-emerald-50', textColor: 'text-emerald-600' },
+    { label: '本周新增', value: stats.weekNewUsers, icon: TrendingUp, color: 'from-violet-500 to-violet-600', bgColor: 'bg-violet-50', textColor: 'text-violet-600' },
+    { label: '今日活跃', value: stats.activeUsersToday, icon: Activity, color: 'from-amber-500 to-amber-600', bgColor: 'bg-amber-50', textColor: 'text-amber-600' },
+    { label: '本周活跃', value: stats.activeUsersWeek, icon: Eye, color: 'from-rose-500 to-rose-600', bgColor: 'bg-rose-50', textColor: 'text-rose-600' },
+    { label: '总浏览量', value: stats.totalPageViews, icon: BarChart3, color: 'from-cyan-500 to-cyan-600', bgColor: 'bg-cyan-50', textColor: 'text-cyan-600' },
+  ];
+
+  const formatDate = (iso?: string) => {
+    if (!iso) return '—';
+    const d = new Date(iso);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+  };
+
+  const getRelativeTime = (iso?: string) => {
+    if (!iso) return '从未';
+    const diff = Date.now() - new Date(iso).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return '刚刚';
+    if (mins < 60) return `${mins}分钟前`;
+    const hours = Math.floor(mins / 60);
+    if (hours < 24) return `${hours}小时前`;
+    const days = Math.floor(hours / 24);
+    if (days < 30) return `${days}天前`;
+    return formatDate(iso);
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* 统计卡片 */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        {statCards.map(card => (
+          <div key={card.label} className="bg-white rounded-xl border border-slate-200 p-4 hover:shadow-md transition-shadow">
+            <div className="flex items-center gap-2 mb-2">
+              <div className={`w-8 h-8 rounded-lg ${card.bgColor} flex items-center justify-center`}>
+                <card.icon className={`w-4 h-4 ${card.textColor}`} />
+              </div>
+              <span className="text-xs text-slate-500">{card.label}</span>
+            </div>
+            <div className="text-2xl font-bold text-slate-800">{card.value.toLocaleString()}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* 用户增长图 */}
+        <div className="bg-white rounded-xl border border-slate-200 p-6">
+          <h3 className="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+            <TrendingUp className="w-5 h-5 text-blue-500" /> 用户增长趋势
+          </h3>
+          {stats.userGrowth.length > 0 ? (
+            <div className="h-48 flex items-end gap-1">
+              {stats.userGrowth.slice(-20).map((g, i) => {
+                const maxCount = stats.userGrowth[stats.userGrowth.length - 1]?.count || 1;
+                const heightPct = Math.max((g.count / maxCount) * 100, 4);
+                return (
+                  <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                    <span className="text-[10px] text-slate-500">{g.count}</span>
+                    <div
+                      className="w-full bg-gradient-to-t from-blue-500 to-blue-400 rounded-t-sm min-h-[4px] transition-all hover:from-blue-600 hover:to-blue-500"
+                      style={{ height: `${heightPct}%` }}
+                      title={`${g.date}: ${g.count} 人`}
+                    />
+                    <span className="text-[9px] text-slate-400">{g.date.slice(5)}</span>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="h-48 flex items-center justify-center text-slate-400 text-sm">暂无数据</div>
+          )}
+        </div>
+
+        {/* 角色分布 & 活跃度 */}
+        <div className="space-y-6">
+          <div className="bg-white rounded-xl border border-slate-200 p-6">
+            <h3 className="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+              <Shield className="w-5 h-5 text-amber-500" /> 角色分布
+            </h3>
+            <div className="flex gap-4">
+              {stats.roleDistribution.map(r => (
+                <div key={r.role} className="flex-1 text-center">
+                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full ${r.role === 'admin' ? 'bg-amber-100' : 'bg-blue-100'}`}>
+                    <span className="text-xl font-bold text-slate-800">{r.count}</span>
+                  </div>
+                  <div className="text-xs text-slate-500 mt-2">{r.role === 'admin' ? '管理员' : '普通用户'}</div>
+                </div>
+              ))}
+              {stats.roleDistribution.length === 0 && <div className="text-sm text-slate-400">暂无数据</div>}
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl border border-slate-200 p-6">
+            <h3 className="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+              <Activity className="w-5 h-5 text-emerald-500" /> 活跃度概览
+            </h3>
+            <div className="space-y-3">
+              {[
+                { label: '今日活跃', value: stats.activeUsersToday, total: stats.totalUsers || 1, color: 'bg-emerald-500' },
+                { label: '本周活跃', value: stats.activeUsersWeek, total: stats.totalUsers || 1, color: 'bg-blue-500' },
+                { label: '本月活跃', value: stats.activeUsersMonth, total: stats.totalUsers || 1, color: 'bg-violet-500' },
+              ].map(item => (
+                <div key={item.label}>
+                  <div className="flex justify-between text-xs text-slate-600 mb-1">
+                    <span>{item.label}</span>
+                    <span>{item.value} / {item.total} 人</span>
+                  </div>
+                  <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div className={`h-full ${item.color} rounded-full transition-all`} style={{ width: `${(item.value / item.total) * 100}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 热门功能使用 */}
+      {stats.topFeatures.length > 0 && (
+        <div className="bg-white rounded-xl border border-slate-200 p-6">
+          <h3 className="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+            <BarChart3 className="w-5 h-5 text-cyan-500" /> 热门功能使用
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
+            {stats.topFeatures.map(f => (
+              <div key={f.feature} className="bg-slate-50 rounded-lg p-3 text-center">
+                <div className="text-lg font-bold text-slate-800">{f.count}</div>
+                <div className="text-xs text-slate-500 truncate">{f.feature}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 用户列表 */}
+      <div className="bg-white rounded-xl border border-slate-200 p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-base font-bold text-slate-800 flex items-center gap-2">
+            <Users className="w-5 h-5 text-blue-500" /> 用户列表
+            <span className="text-xs text-slate-400 font-normal">（共 {userList.length} 人）</span>
+          </h3>
+          <button
+            onClick={() => { clearAllStats(); setStats(getUserStats()); }}
+            className="flex items-center gap-1 text-xs text-red-500 hover:text-red-600 transition-colors"
+          >
+            <Trash className="w-3.5 h-3.5" /> 清除统计
+          </button>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-slate-100">
+                <th className="text-left py-3 px-2 text-slate-500 font-medium">用户</th>
+                <th className="text-left py-3 px-2 text-slate-500 font-medium">邮箱</th>
+                <th className="text-left py-3 px-2 text-slate-500 font-medium">角色</th>
+                <th className="text-left py-3 px-2 text-slate-500 font-medium">注册时间</th>
+                <th className="text-left py-3 px-2 text-slate-500 font-medium">最后登录</th>
+                <th className="text-left py-3 px-2 text-slate-500 font-medium">收藏球队</th>
+                <th className="text-center py-3 px-2 text-slate-500 font-medium">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userList
+                .sort((a, b) => (b.lastLogin || '').localeCompare(a.lastLogin || ''))
+                .slice(0, 50)
+                .map(user => (
+                  <tr key={user.id} className="border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                    <td className="py-3 px-2">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-xs font-bold">
+                          {(user.username || '?')[0].toUpperCase()}
+                        </div>
+                        <span className="font-medium text-slate-800">{user.username}</span>
+                      </div>
+                    </td>
+                    <td className="py-3 px-2 text-slate-600">{user.email}</td>
+                    <td className="py-3 px-2">
+                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${user.role === 'admin' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'}`}>
+                        {user.role === 'admin' ? '管理员' : '用户'}
+                      </span>
+                    </td>
+                    <td className="py-3 px-2 text-slate-500 text-xs">{formatDate(user.createdAt)}</td>
+                    <td className="py-3 px-2 text-slate-500 text-xs">{getRelativeTime(user.lastLogin)}</td>
+                    <td className="py-3 px-2">
+                      <span className="text-slate-500">{user.favoriteTeams?.length || 0} 支</span>
+                    </td>
+                    <td className="py-3 px-2 text-center">
+                      <button
+                        onClick={() => setDetailUser(detailUser?.id === user.id ? null : user)}
+                        className="text-blue-500 hover:text-blue-600 text-xs font-medium transition-colors"
+                      >
+                        {detailUser?.id === user.id ? '收起' : '详情'}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+          {userList.length > 50 && (
+            <div className="text-center text-xs text-slate-400 py-3">仅显示前 50 条，共 {userList.length} 位用户</div>
+          )}
+          {userList.length === 0 && (
+            <div className="text-center text-slate-400 py-8">暂无注册用户</div>
+          )}
+        </div>
+
+        {/* 用户详情弹窗 */}
+        {detailUser && (
+          <div className="mt-4 bg-slate-50 rounded-xl p-5 border border-slate-200">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-lg font-bold">
+                {(detailUser.username || '?')[0].toUpperCase()}
+              </div>
+              <div>
+                <div className="font-bold text-slate-800">{detailUser.username}</div>
+                <div className="text-xs text-slate-500">{detailUser.email}</div>
+              </div>
+              <span className={`ml-2 px-2 py-0.5 rounded-full text-xs font-medium ${detailUser.role === 'admin' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'}`}>
+                {detailUser.role === 'admin' ? '管理员' : '用户'}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+              <div className="bg-white rounded-lg p-3 border border-slate-100">
+                <div className="text-slate-500 mb-1">注册时间</div>
+                <div className="font-medium text-slate-800">{formatDate(detailUser.createdAt)}</div>
+              </div>
+              <div className="bg-white rounded-lg p-3 border border-slate-100">
+                <div className="text-slate-500 mb-1">最后登录</div>
+                <div className="font-medium text-slate-800">{formatDate(detailUser.lastLogin)}</div>
+              </div>
+              <div className="bg-white rounded-lg p-3 border border-slate-100">
+                <div className="text-slate-500 mb-1">收藏球队</div>
+                <div className="font-medium text-slate-800">{detailUser.favoriteTeams?.length || 0} 支</div>
+              </div>
+              <div className="bg-white rounded-lg p-3 border border-slate-100">
+                <div className="text-slate-500 mb-1">用户ID</div>
+                <div className="font-medium text-slate-800 font-mono">{detailUser.id}</div>
+              </div>
+            </div>
+            {detailUser.favoriteTeams && detailUser.favoriteTeams.length > 0 && (
+              <div className="mt-3">
+                <div className="text-xs text-slate-500 mb-1">关注的球队 ID：</div>
+                <div className="flex flex-wrap gap-1">
+                  {detailUser.favoriteTeams.map(tid => (
+                    <span key={tid} className="px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-xs">{tid}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* 最近页面访问记录 */}
+      {stats.recentPageVisits.length > 0 && (
+        <div className="bg-white rounded-xl border border-slate-200 p-6">
+          <h3 className="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+            <Clock className="w-5 h-5 text-slate-500" /> 最近访问记录
+            <span className="text-xs text-slate-400 font-normal">（最近 {stats.recentPageVisits.length} 条）</span>
+          </h3>
+          <div className="space-y-1.5 max-h-64 overflow-y-auto">
+            {stats.recentPageVisits.slice(0, 30).map((visit, i) => (
+              <div key={i} className="flex items-center justify-between py-1.5 px-2 rounded hover:bg-slate-50 text-xs">
+                <div className="flex items-center gap-3">
+                  <span className="text-slate-400 w-5 text-right">{i + 1}</span>
+                  <span className="px-2 py-0.5 bg-blue-50 text-blue-700 rounded font-medium">{visit.page}</span>
+                  {visit.userId && <span className="text-slate-400">by {visit.userId}</span>}
+                </div>
+                <span className="text-slate-400">{getRelativeTime(visit.timestamp)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function AdminSection() {
   const [isAuth, setIsAuth] = useState(adminAuth.isAuthenticated());
@@ -367,13 +662,17 @@ export default function AdminSection() {
     const newStadium: Stadium = {
       id: `ST-${Date.now()}`,
       name: '新球场',
+      nameEn: 'New Stadium',
       city: '未指定',
+      cityEn: 'Unknown',
       country: '未指定',
       capacity: 40000,
       surface: '天然草皮',
       altitude: 0,
       builtYear: 2020,
       description: '',
+      matches: 0,
+      keyMatches: [],
       coordinates: { lat: 0, lng: 0 },
     };
     const newStadiums = [...adminStadiums, newStadium];
@@ -450,6 +749,7 @@ export default function AdminSection() {
         {([
           { key: 'teams' as AdminTab, label: '球队管理', icon: Users },
           { key: 'stadiums' as AdminTab, label: '球场管理', icon: MapPin },
+          { key: 'users' as AdminTab, label: '用户统计', icon: BarChart3 },
           { key: 'settings' as AdminTab, label: '数据管理', icon: Shield },
         ] as const).map(tab => (
           <button
@@ -560,6 +860,10 @@ export default function AdminSection() {
             </>
           )}
         </div>
+      )}
+
+      {activeAdminTab === 'users' && (
+        <UserStatsPanel />
       )}
 
       {activeAdminTab === 'settings' && (

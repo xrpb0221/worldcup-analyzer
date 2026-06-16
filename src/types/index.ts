@@ -8,14 +8,14 @@ export interface Team {
   coach: string;
   coachNationality: string;
   coachAge: number;
-  coachExperience: number; // years
-  coachRating: number; // 0-100
+  coachExperience: number;
+  coachRating: number;
   attackRating: number;
   defenseRating: number;
   midRating: number;
   overallRating: number;
   avgAge: number;
-  totalValue: string; // market value
+  totalValue: string;
   wins: number;
   draws: number;
   losses: number;
@@ -42,16 +42,18 @@ export interface Player {
   value: string;
   injured: boolean;
   injuryDetail?: string;
-  fitness: number; // 0-100
+  fitness: number;
 }
 
 export interface Match {
   id: string;
-  homeTeam: Team;
-  awayTeam: Team;
+  homeTeamId: string;
+  awayTeamId: string;
+  homeTeamName: string;
+  awayTeamName: string;
   date: string;
   time: string;
-  stadium: Stadium;
+  stadiumId: string;
   group?: string;
   stage: string;
   homeScore?: number;
@@ -59,18 +61,23 @@ export interface Match {
   status: 'upcoming' | 'live' | 'finished';
   weather?: Weather;
   attendance?: number;
+  scorers?: string[];
 }
 
 export interface Stadium {
   id: string;
   name: string;
+  nameEn: string;
   city: string;
+  cityEn: string;
   country: string;
   capacity: number;
   surface: string;
   altitude: number;
   builtYear: number;
   description: string;
+  matches: number;
+  keyMatches: string[];
   coordinates: { lat: number; lng: number };
 }
 
@@ -113,7 +120,9 @@ export interface ScoreProbability {
 }
 
 export interface GroupStanding {
-  team: Team;
+  teamId: string;
+  teamName: string;
+  flag: string;
   played: number;
   wins: number;
   draws: number;
@@ -122,7 +131,7 @@ export interface GroupStanding {
   goalsAgainst: number;
   goalDiff: number;
   points: number;
-  heatLevel: number; // 0-100, competition intensity
+  heatLevel: number;
   qualified: boolean;
 }
 
@@ -134,4 +143,28 @@ export interface SearchResult {
   time: string;
   url?: string;
   image?: string;
+}
+
+export interface NewsItem {
+  id: string;
+  title: string;
+  summary: string;
+  source: string;
+  url: string;
+  imageUrl?: string;
+  publishedAt: string;
+  category: 'match_result' | 'transfer' | 'injury' | 'preview' | 'analysis' | 'general';
+  relatedTeams?: string[];
+}
+
+export interface User {
+  id: string;
+  username: string;
+  email: string;
+  password: string; // hashed
+  avatar?: string;
+  favoriteTeams: string[];
+  createdAt: string;
+  lastLogin: string;
+  role: 'user' | 'admin';
 }

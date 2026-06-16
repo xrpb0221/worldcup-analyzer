@@ -1,14 +1,40 @@
-import { stadiums, getWeatherByCity } from '@/data/stadiums';
+import { useState, useEffect } from 'react';
+import { stadiums } from '@/data/stadiums';
+import { fetchWeatherData } from '@/data/liveData';
 import type { Stadium } from '@/types';
-import { MapPin, Users, Mountain, Calendar, Wind, Droplets, Thermometer } from 'lucide-react';
+import { MapPin, Users, Mountain, Calendar, Wind, Droplets, Thermometer, Trophy, Flag, RefreshCw } from 'lucide-react';
 
-function WeatherWidget({ city }: { city: string }) {
-  const w = getWeatherByCity(city);
+// 默认天气数据（API 不可用时回退）
+const defaultWeather: Record<string, { temp: number; humidity: number; windSpeed: number; condition: string; icon: string }> = {
+  '墨西哥城': { temp: 18, humidity: 55, windSpeed: 8, condition: '多云', icon: '⛅' },
+  '瓜达拉哈拉': { temp: 22, humidity: 50, windSpeed: 6, condition: '晴朗', icon: '☀️' },
+  '蒙特雷': { temp: 30, humidity: 60, windSpeed: 10, condition: '炎热', icon: '🌞' },
+  '温哥华': { temp: 16, humidity: 70, windSpeed: 12, condition: '多云有小雨', icon: '🌦️' },
+  '多伦多': { temp: 22, humidity: 60, windSpeed: 8, condition: '晴间多云', icon: '⛅' },
+  '达拉斯': { temp: 35, humidity: 55, windSpeed: 14, condition: '干热', icon: '🌡️' },
+  '纽约/新泽西': { temp: 24, humidity: 65, windSpeed: 10, condition: '沿海温和', icon: '🌤️' },
+  '洛杉矶': { temp: 26, humidity: 45, windSpeed: 8, condition: '晴朗舒适', icon: '☀️' },
+  '亚特兰大': { temp: 28, humidity: 70, windSpeed: 6, condition: '湿热', icon: '🌤️' },
+  '休斯敦': { temp: 33, humidity: 75, windSpeed: 8, condition: '炎热潮湿', icon: '🌡️' },
+  '迈阿密': { temp: 31, humidity: 80, windSpeed: 10, condition: '热带气候', icon: '🌴' },
+  '波士顿': { temp: 22, humidity: 60, windSpeed: 10, condition: '夏季宜人', icon: '⛅' },
+  '堪萨斯城': { temp: 28, humidity: 55, windSpeed: 12, condition: '温暖', icon: '☀️' },
+  '费城': { temp: 24, humidity: 60, windSpeed: 8, condition: '夏季温和', icon: '⛅' },
+  '旧金山湾区': { temp: 18, humidity: 65, windSpeed: 16, condition: '凉爽多雾', icon: '🌫️' },
+  '西雅图': { temp: 18, humidity: 70, windSpeed: 12, condition: '凉爽多云', icon: '⛅' },
+};
+
+function WeatherWidget({ city, liveWeather }: { city: string; liveWeather?: { temp: number; humidity: number; windSpeed: number; condition: string; icon: string } }) {
+  const w = liveWeather || defaultWeather[city] || { temp: 22, humidity: 60, windSpeed: 8, condition: '适宜', icon: '⛅' };
+  const isLive = !!liveWeather;
   return (
     <div className="flex items-center gap-3 p-3 bg-sky-50 rounded-xl border border-sky-100">
       <span className="text-2xl">{w.icon}</span>
       <div className="flex-1">
-        <div className="font-medium text-slate-700 text-sm">{w.condition}</div>
+        <div className="font-medium text-slate-700 text-sm flex items-center gap-1.5">
+          {w.condition}
+          {isLive && <span className="text-[10px] text-blue-500 bg-blue-50 px-1.5 py-0.5 rounded-full">实时</span>}
+        </div>
         <div className="flex gap-3 text-xs text-slate-500 mt-1">
           <span className="flex items-center gap-1"><Thermometer className="w-3 h-3" />{w.temp}°C</span>
           <span className="flex items-center gap-1"><Droplets className="w-3 h-3" />{w.humidity}%</span>
@@ -19,7 +45,7 @@ function WeatherWidget({ city }: { city: string }) {
   );
 }
 
-function StadiumCard({ stadium }: { stadium: Stadium }) {
+function StadiumCard({ stadium, liveWeather }: { stadium: Stadium; liveWeather?: { temp: number; humidity: number; windSpeed: number; condition: string; icon: string } }) {
   const flagMap: Record<string, string> = {
     '美国': '🇺🇸',
     '加拿大': '🇨🇦',
@@ -82,7 +108,7 @@ function StadiumCard({ stadium }: { stadium: Stadium }) {
         {/* Weather */}
         <div>
           <div className="text-xs font-semibold text-slate-500 mb-2">📡 赛时天气预报</div>
-          <WeatherWidget city={stadium.city} />
+          <WeatherWidget city={stadium.city} liveWeather={liveWeather} />
         </div>
 
         {/* Altitude Warning */}
@@ -97,7 +123,19 @@ function StadiumCard({ stadium }: { stadium: Stadium }) {
           </div>
         )}
 
-        {/* Capacity badge */}
+        {/* Key matches */}
+        {stadium.keyMatches && stadium.keyMatches.length > 0 && (
+          <div>
+            <div className="text-xs font-semibold text-slate-500 mb-2">🏆 重点场次</div>
+            <div className="flex flex-wrap gap-1.5">
+              {stadium.keyMatches.map((m, i) => (
+                <span key={i} className="px-2 py-1 bg-amber-50 border border-amber-200 rounded text-xs text-amber-700 font-medium">{m}</span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Matches count */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="h-2 flex-1 w-32 bg-slate-100 rounded-full overflow-hidden">
@@ -119,14 +157,51 @@ function StadiumCard({ stadium }: { stadium: Stadium }) {
 }
 
 export default function StadiumsSection() {
+  const [weatherData, setWeatherData] = useState<Record<string, { temp: number; humidity: number; windSpeed: number; condition: string; icon: string }>>({});
+  const [weatherLoading, setWeatherLoading] = useState(false);
+
+  // 加载实时天气
+  useEffect(() => {
+    const loadWeather = async () => {
+      setWeatherLoading(true);
+      try {
+        const data = await fetchWeatherData();
+        if (data) {
+          const mapped: Record<string, { temp: number; humidity: number; windSpeed: number; condition: string; icon: string }> = {};
+          for (const [, val] of Object.entries(data)) {
+            mapped[val.stadiumId] = {
+              temp: val.temp,
+              humidity: val.humidity,
+              windSpeed: val.windSpeed,
+              condition: val.condition,
+              icon: val.icon,
+            };
+          }
+          setWeatherData(mapped);
+        }
+      } catch { /* ignore */ }
+      setWeatherLoading(false);
+    };
+    loadWeather();
+  }, []);
+
   const weatherSummary = [
-    { city: '墨西哥城', note: '高海拔·阴凉', flag: '🇲🇽', temp: 18 },
-    { city: '温哥华', note: '多雨·凉爽', flag: '🇨🇦', temp: 16 },
-    { city: '多伦多', note: '夏季宜人', flag: '🇨🇦', temp: 22 },
-    { city: '纽约', note: '沿海·温和', flag: '🇺🇸', temp: 24 },
-    { city: '洛杉矶', note: '晴朗·舒适', flag: '🇺🇸', temp: 26 },
-    { city: '休斯顿', note: '炎热·潮湿', flag: '🇺🇸', temp: 33 },
-    { city: '达拉斯', note: '干热·炎夏', flag: '🇺🇸', temp: 35 },
+    { city: '墨西哥城', note: '高海拔·阴凉', flag: '🇲🇽', temp: weatherData['estadio-azteca']?.temp || 18 },
+    { city: '瓜达拉哈拉', note: '晴朗舒适', flag: '🇲🇽', temp: weatherData['guadalajara']?.temp || 22 },
+    { city: '蒙特雷', note: '干热', flag: '🇲🇽', temp: weatherData['monterrey']?.temp || 30 },
+    { city: '温哥华', note: '多雨·凉爽', flag: '🇨🇦', temp: weatherData['vancouver']?.temp || 16 },
+    { city: '多伦多', note: '夏季宜人', flag: '🇨🇦', temp: weatherData['toronto']?.temp || 22 },
+    { city: '纽约', note: '沿海·温和', flag: '🇺🇸', temp: weatherData['new-york']?.temp || 24 },
+    { city: '洛杉矶', note: '晴朗·舒适', flag: '🇺🇸', temp: weatherData['los-angeles']?.temp || 26 },
+    { city: '达拉斯', note: '干热·炎夏', flag: '🇺🇸', temp: weatherData['dallas']?.temp || 35 },
+    { city: '亚特兰大', note: '湿热', flag: '🇺🇸', temp: weatherData['atlanta']?.temp || 28 },
+    { city: '休斯顿', note: '炎热·潮湿', flag: '🇺🇸', temp: weatherData['houston']?.temp || 33 },
+    { city: '迈阿密', note: '热带气候', flag: '🇺🇸', temp: weatherData['miami']?.temp || 31 },
+    { city: '波士顿', note: '夏季温和', flag: '🇺🇸', temp: weatherData['boston']?.temp || 22 },
+    { city: '堪萨斯城', note: '温暖', flag: '🇺🇸', temp: weatherData['kansas-city']?.temp || 28 },
+    { city: '费城', note: '夏季宜人', flag: '🇺🇸', temp: weatherData['philadelphia']?.temp || 24 },
+    { city: '旧金山', note: '凉爽多雾', flag: '🇺🇸', temp: weatherData['san-francisco']?.temp || 18 },
+    { city: '西雅图', note: '凉爽多云', flag: '🇺🇸', temp: weatherData['seattle']?.temp || 18 },
   ];
 
   return (
@@ -136,8 +211,10 @@ export default function StadiumsSection() {
         <h3 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
           <Thermometer className="w-4 h-4 text-amber-500" />
           各赛场城市天气概览
+          {weatherLoading && <RefreshCw className="w-3.5 h-3.5 text-blue-500 animate-spin" />}
+          {Object.keys(weatherData).length > 0 && <span className="text-[10px] text-blue-500 bg-blue-50 px-1.5 py-0.5 rounded-full">实时</span>}
         </h3>
-        <div className="grid grid-cols-3 md:grid-cols-7 gap-2">
+        <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
           {weatherSummary.map(w => (
             <div
               key={w.city}
@@ -162,7 +239,7 @@ export default function StadiumsSection() {
       {/* Stadiums Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {stadiums.map(stadium => (
-          <StadiumCard key={stadium.id} stadium={stadium} />
+          <StadiumCard key={stadium.id} stadium={stadium} liveWeather={weatherData[stadium.id]} />
         ))}
       </div>
     </div>

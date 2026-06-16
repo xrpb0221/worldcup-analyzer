@@ -1,24 +1,29 @@
 import { useState } from 'react';
-import { Search, Globe, Trophy, ChevronRight, Shield } from 'lucide-react';
+import type { User } from '@/types';
+import { getCurrentUser } from '@/data/auth';
+import { Search, Globe, Trophy, ChevronRight, Shield, Lock } from 'lucide-react';
 
 interface HeaderProps {
   activeTab: string;
   onTabChange: (tab: string) => void;
   onSearch: (query: string) => void;
+  user: User | null;
 }
 
 const tabs = [
-  { id: 'overview', label: '总览', icon: '🏠' },
-  { id: 'matches', label: '赛程', icon: '⚽' },
-  { id: 'teams', label: '球队', icon: '🛡️' },
-  { id: 'standings', label: '积分榜', icon: '📊' },
-  { id: 'stadiums', label: '球场', icon: '🏟️' },
-  { id: 'simulation', label: '比赛模拟', icon: '🎮' },
-  { id: 'search', label: '全网搜索', icon: '🔍' },
-  { id: 'admin', label: '管理', icon: '⚙️' },
+  { id: 'overview', label: '总览', icon: '🏠', locked: false },
+  { id: 'matches', label: '赛程', icon: '⚽', locked: false },
+  { id: 'teams', label: '球队', icon: '🛡️', locked: false },
+  { id: 'standings', label: '积分榜', icon: '📊', locked: false },
+  { id: 'stadiums', label: '球场', icon: '🏟️', locked: true },
+  { id: 'simulation', label: '比赛模拟', icon: '🎮', locked: true },
+  { id: 'news', label: '新闻', icon: '📰', locked: true },
+  { id: 'search', label: '全网搜索', icon: '🔍', locked: true },
+  { id: 'account', label: '登录', icon: '🔑', locked: false },
+  { id: 'admin', label: '管理', icon: '⚙️', locked: false },
 ];
 
-export default function Header({ activeTab, onTabChange, onSearch }: HeaderProps) {
+export default function Header({ activeTab, onTabChange, onSearch, user }: HeaderProps) {
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = (e: React.FormEvent) => {
@@ -65,6 +70,35 @@ export default function Header({ activeTab, onTabChange, onSearch }: HeaderProps
             </div>
           </form>
 
+          {/* User avatar or login button */}
+          {user ? (
+            <div className="relative flex-shrink-0">
+              <button
+                onClick={() => onTabChange('account')}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/15 border border-white/20 hover:bg-white/25 transition-colors cursor-pointer"
+                title={user.username}
+              >
+                {user.avatar ? (
+                  <img src={user.avatar} alt={user.username} className="w-7 h-7 rounded-full object-cover" />
+                ) : (
+                  <span className="w-7 h-7 rounded-full bg-yellow-400 text-blue-900 font-bold text-sm flex items-center justify-center">
+                    {user.username[0].toUpperCase()}
+                  </span>
+                )}
+                <span className="hidden sm:inline text-white text-sm font-medium">{user.username}</span>
+              </button>
+              <span className="absolute top-0.5 right-0.5 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-blue-800 shadow-sm" title="已登录" />
+            </div>
+          ) : (
+            <button
+              onClick={() => onTabChange('account')}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-yellow-400 hover:bg-yellow-300 text-blue-900 text-sm font-bold transition-colors cursor-pointer flex-shrink-0"
+            >
+              <span>🔑</span>
+              <span className="hidden sm:inline">登录/注册</span>
+            </button>
+          )}
+
           {/* Stats */}
           <div className="hidden lg:flex items-center gap-4 text-blue-200 text-xs flex-shrink-0">
             <div className="flex items-center gap-1">
@@ -83,7 +117,7 @@ export default function Header({ activeTab, onTabChange, onSearch }: HeaderProps
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex overflow-x-auto scrollbar-none gap-1 py-1">
-            {tabs.map(tab => (
+            {tabs.filter(t => t.id !== 'account' || !user).map(tab => (
               <button
                 key={tab.id}
                 onClick={() => onTabChange(tab.id)}
@@ -93,11 +127,26 @@ export default function Header({ activeTab, onTabChange, onSearch }: HeaderProps
                     : 'text-blue-200 hover:text-white hover:bg-white/10'
                 }`}
               >
-                <span>{tab.icon}</span>
-                <span>{tab.label}</span>
+                <span>{tab.id === 'account' && user ? '👤' : tab.icon}</span>
+                <span>{tab.id === 'account' && user ? '账号' : tab.label}</span>
+                {tab.locked && !user && <Lock className="w-3 h-3 text-yellow-400/70" />}
                 {activeTab === tab.id && <ChevronRight className="w-3 h-3" />}
               </button>
             ))}
+            {user && (
+              <button
+                onClick={() => onTabChange('account')}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium whitespace-nowrap cursor-pointer transition-all ${
+                  activeTab === 'account'
+                    ? 'bg-white/20 text-white shadow-inner'
+                    : 'text-blue-200 hover:text-white hover:bg-white/10'
+                }`}
+              >
+                <span>👤</span>
+                <span>账号</span>
+                {activeTab === 'account' && <ChevronRight className="w-3 h-3" />}
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -1,7 +1,17 @@
 import { useState } from 'react';
 import { teams } from '@/data/teams';
 import type { SearchResult } from '@/types';
-import { Search, ExternalLink, Globe, TrendingUp, Users, MapPin } from 'lucide-react';
+import { Search, ExternalLink, Globe, TrendingUp, Users, MapPin, Loader2 } from 'lucide-react';
+
+// ---------------------------------------
+// Helpers
+// ---------------------------------------
+
+function fetchWithTimeout(url: string, timeout = 10000): Promise<Response> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeout);
+  return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+}
 
 function simulateSearch(query: string): SearchResult[] {
   const q = query.toLowerCase();
@@ -41,6 +51,10 @@ function simulateSearch(query: string): SearchResult[] {
 
   return results;
 }
+
+// ---------------------------------------
+// Sub-components
+// ---------------------------------------
 
 function ResultCard({ result }: { result: SearchResult }) {
   const typeIcons: Record<string, string> = {
@@ -128,25 +142,56 @@ function SearchEngineLinks({ query }: { query: string }) {
   );
 }
 
+// ---------------------------------------
+// Main section
+// ---------------------------------------
+
 export default function SearchSection({ initialQuery = '' }: { initialQuery?: string }) {
   const [query, setQuery] = useState(initialQuery);
   const [searched, setSearched] = useState(!!initialQuery);
   const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState<SearchResult[]>([]);
+  const [total, setTotal] = useState(0);
+  const [sourceType, setSourceType] = useState<'server' | 'local' | null>(null);
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!query.trim()) return;
 
     setIsSearching(true);
     setSearched(true);
+    setResults([]);
+    setTotal(0);
+    setSourceType(null);
 
-    // Simulate network delay for realism
-    setTimeout(() => {
-      const results = simulateSearch(query.trim());
-      setResults(results);
-      setIsSearching(false);
-    }, 800);
+    const trimmed = query.trim();
+
+    try {
+      const res = await fetchWithTimeout(`/api/search?q=${encodeURIComponent(trimmed)}`, 10000);
+
+      if (res.status === 200) {
+        const data: { results: SearchResult[]; query: string; total: number } = await res.json();
+
+        if (data.results && data.results.length > 0) {
+          setResults(data.results);
+          setTotal(data.total);
+          setSourceType('server');
+          setIsSearching(false);
+          return;
+        }
+      }
+
+      // Response was not OK or had no results – fall through to local
+    } catch {
+      // Network / timeout / abort – fall through to local
+    }
+
+    // Fallback: use local simulated search
+    const localResults = simulateSearch(trimmed);
+    setResults(localResults);
+    setTotal(localResults.filter(r => r.type !== 'news').length);
+    setSourceType('local');
+    setIsSearching(false);
   };
 
   // Hot search topics
@@ -211,17 +256,21 @@ export default function SearchSection({ initialQuery = '' }: { initialQuery?: st
         </div>
       </div>
 
-      {/* Results */}
+      {/* Loading */}
       {isSearching && (
         <div className="flex items-center justify-center py-16">
           <div className="text-center">
             <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4" />
             <div className="text-slate-500 font-medium">正在为您搜索分析...</div>
-            <div className="text-slate-400 text-sm mt-1">检索 FIFA/ESPN/Transfermarkt 等多个数据源</div>
+            <div className="flex items-center justify-center gap-1.5 text-slate-400 text-sm mt-1">
+              <Loader2 className="w-3 h-3 animate-spin" />
+              检索 FIFA/ESPN/Transfermarkt 等多个数据源
+            </div>
           </div>
         </div>
       )}
 
+      {/* Results */}
       {searched && !isSearching && (
         <div>
           {results.length > 0 ? (
@@ -229,8 +278,20 @@ export default function SearchSection({ initialQuery = '' }: { initialQuery?: st
               <div className="flex items-center justify-between">
                 <h3 className="font-bold text-slate-800 flex items-center gap-2">
                   <Search className="w-4 h-4 text-blue-500" />
-                  找到 {results.filter(r => r.type !== 'news').length} 条相关结果
+                  找到 {total || results.filter(r => r.type !== 'news').length} 条相关结果
                 </h3>
+
+                {/* Source badge */}
+                {sourceType === 'server' && (
+                  <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-medium">
+                    📡 服务器搜索
+                  </span>
+                )}
+                {sourceType === 'local' && (
+                  <span className="inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200 font-medium">
+                    💾 本地数据
+                  </span>
+                )}
               </div>
               {results.map((result, i) => (
                 <ResultCard key={i} result={result} />
@@ -249,7 +310,7 @@ export default function SearchSection({ initialQuery = '' }: { initialQuery?: st
         </div>
       )}
 
-      {/* Global Search Links - Always visible */}
+      {/* Global Search Links - Always visible after search */}
       {searched && (
         <div className="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm">
           <h3 className="font-bold text-slate-800 mb-3 flex items-center gap-2">
