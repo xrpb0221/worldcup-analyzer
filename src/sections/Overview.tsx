@@ -4,6 +4,7 @@ import { Users, MapPin, Calendar, TrendingUp, Shield, Zap, Star } from 'lucide-r
 
 interface OverviewProps {
   onTabChange: (tab: string) => void;
+  onViewTeam?: (teamId: string) => void;
 }
 
 const topTeams = [...teams]
@@ -64,7 +65,7 @@ function getTopScorers() {
 
 const topScorers = getTopScorers();
 
-export default function Overview({ onTabChange }: OverviewProps) {
+export default function Overview({ onTabChange, onViewTeam }: OverviewProps) {
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Hero Banner */}
@@ -304,7 +305,7 @@ export default function Overview({ onTabChange }: OverviewProps) {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {topTeams.map((team, i) => (
             <div key={team.id} className="text-center p-4 rounded-xl hover:bg-slate-50 cursor-pointer transition-colors group"
-              onClick={() => onTabChange('teams')}
+              onClick={() => onViewTeam ? onViewTeam(team.id) : onTabChange('teams')}
             >
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold mx-auto mb-2 ${
                 i === 0 ? 'bg-yellow-400 text-yellow-900' :

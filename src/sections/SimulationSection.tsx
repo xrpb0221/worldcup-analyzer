@@ -203,7 +203,7 @@ function SimResult({ result, homeTeam, awayTeam, onReset }: {
 export default function SimulationSection() {
   const [homeTeam, setHomeTeam] = useState<Team | null>(null);
   const [awayTeam, setAwayTeam] = useState<Team | null>(null);
-  const [simRuns] = useState(10000);
+  const [simRuns] = useState(100000);
   const { result, isSimulating, progress, simulate, reset } = useSimulation();
 
   const handleSimulate = () => {
@@ -227,7 +227,7 @@ export default function SimulationSection() {
           <span>🎮</span>
           比赛模拟系统
         </h2>
-        <p className="text-slate-400 text-sm mb-6">基于蒙特卡洛算法，融合球队实力、历史战绩、球员状态等多维数据进行万次模拟</p>
+        <p className="text-slate-400 text-sm mb-6">基于蒙特卡洛算法，融合球队实力、天气条件、球员状态等多维数据进行10万次模拟</p>
 
         {!result && (
           <>
@@ -377,7 +377,7 @@ export default function SimulationSection() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[
             { label: '泊松分布', desc: '进球期望计算', icon: '📊' },
-            { label: '蒙特卡洛', desc: '万次随机模拟', icon: '🎲' },
+            { label: '蒙特卡洛', desc: '10万次随机模拟', icon: '🎲' },
             { label: '多维评估', desc: '攻防中场综合', icon: '⚖️' },
             { label: '主场优势', desc: '1.08倍系数', icon: '🏠' },
           ].map(item => (

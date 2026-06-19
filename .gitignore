@@ -1,6 +1,12 @@
 node_modules
 dist
+dist-new
 .env
 .env.local
 *.log
 .DS_Store
+.vite-cache
+.workbuddy
+*.bak
+cleanup_test.py
+monitor_report_*.md

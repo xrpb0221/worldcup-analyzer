@@ -3,9 +3,9 @@ import { adminAuth, getAdminTeams, saveAdminTeams, getAdminStadiums, saveAdminSt
 import { teams as defaultTeams } from '@/data/teams';
 import { stadiums as defaultStadiums } from '@/data/stadiums';
 import type { Team, Player, Stadium, User } from '@/types';
-import { getUserStats, clearAllStats } from '@/data/stats';
+import { getUserStats as getLocalStats, clearAllStats } from '@/data/stats';
 import type { UserStats } from '@/data/stats';
-import { getUsers } from '@/data/auth';
+import { getServerUsers, getUserStats as getServerStats } from '@/data/auth';
 import { Lock, Users, MapPin, Download, Upload, RotateCcw, LogOut, Plus, Trash2, Edit3, Save, X, ChevronDown, ChevronRight, Shield, Star, BarChart3, TrendingUp, Eye, UserPlus, Clock, Activity, Trash } from 'lucide-react';
 
 function LoginForm({ onLogin }: { onLogin: () => void }) {
@@ -289,10 +289,23 @@ function UserStatsPanel() {
   const [stats, setStats] = useState<UserStats | null>(null);
   const [userList, setUserList] = useState<User[]>([]);
   const [detailUser, setDetailUser] = useState<User | null>(null);
+  const [serverTotalUsers, setServerTotalUsers] = useState<number | null>(null);
 
   useEffect(() => {
-    setStats(getUserStats());
-    setUserList(getUsers());
+    // Load local stats immediately
+    setStats(getLocalStats());
+
+    // Fetch server-side user data
+    (async () => {
+      const serverStats = await getServerStats();
+      if (serverStats) {
+        setServerTotalUsers(serverStats.totalUsers);
+      }
+      const users = await getServerUsers();
+      if (users.length > 0) {
+        setUserList(users);
+      }
+    })();
   }, []);
 
   if (!stats) return null;
@@ -440,7 +453,7 @@ function UserStatsPanel() {
             <span className="text-xs text-slate-400 font-normal">（共 {userList.length} 人）</span>
           </h3>
           <button
-            onClick={() => { clearAllStats(); setStats(getUserStats()); }}
+            onClick={() => { clearAllStats(); setStats(getLocalStats()); }}
             className="flex items-center gap-1 text-xs text-red-500 hover:text-red-600 transition-colors"
           >
             <Trash className="w-3.5 h-3.5" /> 清除统计

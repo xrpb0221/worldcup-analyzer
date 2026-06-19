@@ -1,11 +1,10 @@
 /**
  * 比赛数据服务（服务器API版）
  *
- * 所有数据由服务器端 Python cron 定时更新，前端仅读取：
- * - /api/matches.json → 比赛实时数据
- * - /api/weather.json → 天气数据
- *
- * 不再使用 CORS 代理、TheSportsDB 直连等客户端策略。
+ * 数据原则：不编造任何比赛结果！
+ * - 静态数据仅包含赛程和已确认的真实比分
+ * - 所有实时更新来自服务器 API（/api/matches.json）
+ * - 服务器 API 不可用时，显示本地已确认数据，不降级为假数据
  */
 
 import { matches as staticMatches } from '@/data/stadiums';
@@ -82,7 +81,7 @@ export async function fetchLiveMatchData(): Promise<Record<string, LiveMatchUpda
       }
     }
   } catch {
-    console.warn('[LiveData] 服务器API不可用，使用本地数据');
+    console.warn('[LiveData] 服务器API不可用，使用本地已确认数据');
   }
   return {};
 }
@@ -98,12 +97,117 @@ export async function fetchWeatherData(): Promise<ServerWeatherData | null> {
   return null;
 }
 
-/** 获取合并后的比赛数据（服务器更新 + 本地静态） */
+// ========== 射手榜数据 ==========
+
+export interface TopScorerEntry {
+  playerId: string;
+  name: string;
+  nameEn: string;
+  teamId: string;
+  teamName: string;
+  teamNameEn: string;
+  teamFlag: string;
+  position: string;
+  club: string;
+  rating: number;
+  goals: number;
+  assists: number;
+  matches: number;
+  goalContributions: number;
+}
+
+interface ServerTopScorersData {
+  scorers: TopScorerEntry[];
+  totalScorers: number;
+  lastUpdate: string;
+  source: string;
+}
+
+/** 从服务器 API 拉取射手榜数据 */
+export async function fetchTopScorers(): Promise<TopScorerEntry[] | null> {
+  try {
+    const raw = await fetchWithTimeout('/api/topscorers.json');
+    if (raw) {
+      const data: ServerTopScorersData = JSON.parse(raw);
+      if (data.scorers && data.scorers.length > 0) {
+        return data.scorers;
+      }
+    }
+  } catch { /* ignore */ }
+  return null;
+}
+
+// ========== 积分榜数据 ==========
+
+export interface StandingEntry {
+  teamId: string;
+  teamName: string;
+  teamNameEn: string;
+  teamFlag: string;
+  ranking: number;
+  overallRating: number;
+  wins: number;
+  draws: number;
+  losses: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  goalDifference: number;
+  points: number;
+  played: number;
+}
+
+interface ServerStandingsData {
+  groups: Record<string, StandingEntry[]>;
+  lastUpdate: string;
+  source: string;
+}
+
+/** 从服务器 API 拉取积分榜数据 */
+export async function fetchStandings(): Promise<Record<string, StandingEntry[]> | null> {
+  try {
+    const raw = await fetchWithTimeout('/api/standings.json');
+    if (raw) {
+      const data: ServerStandingsData = JSON.parse(raw);
+      if (data.groups && Object.keys(data.groups).length > 0) {
+        return data.groups;
+      }
+    }
+  } catch { /* ignore */ }
+  return null;
+}
+
+/**
+ * 获取合并后的比赛数据（服务器更新 + 本地已确认数据）
+ *
+ * 合并规则（防止假数据展示）：
+ * 1. 服务器有更新 → 使用服务器数据（最权威）
+ * 2. 本地静态数据已标记为 finished → 使用本地数据（已确认真实）
+ * 3. 本地静态数据为 upcoming → 保持 upcoming，不编造结果
+ * 4. 绝不把 upcoming 状态覆盖为 finished，除非服务器明确说已完赛
+ */
 export function getMergedMatches(liveUpdates?: Record<string, LiveMatchUpdate>): Match[] {
   const updates = liveUpdates || {};
   return staticMatches.map(m => {
     const update = updates[m.id];
     if (!update) return m;
+
+    // 防护：如果本地是 upcoming 且服务器没有明确标记为 finished/live，保持 upcoming
+    if (m.status === 'upcoming' && update.status === 'upcoming') {
+      return m;
+    }
+
+    // 如果本地是 upcoming，只有服务器确认 finished/live 才更新
+    if (m.status === 'upcoming' && update.status !== 'upcoming') {
+      return {
+        ...m,
+        homeScore: update.homeScore !== null ? update.homeScore : m.homeScore,
+        awayScore: update.awayScore !== null ? update.awayScore : m.awayScore,
+        status: update.status,
+        scorers: update.scorers || m.scorers,
+      };
+    }
+
+    // 本地已 finished，服务器有更新则覆盖
     return {
       ...m,
       homeScore: update.homeScore !== null ? update.homeScore : m.homeScore,

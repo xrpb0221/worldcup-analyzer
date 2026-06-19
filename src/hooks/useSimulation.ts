@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import type { Team, SimulationResult, SimEvent, ScoreProbability } from '@/types';
+import type { Team, SimulationResult, SimEvent, ScoreProbability, Weather } from '@/types';
 
 function poissonRandom(lambda: number): number {
   let L = Math.exp(-lambda);
@@ -14,6 +14,49 @@ function poissonRandom(lambda: number): number {
 
 function clamp(val: number, min: number, max: number) {
   return Math.max(min, Math.min(max, val));
+}
+
+/**
+ * 天气对比赛的影响系数
+ * 返回 [进攻影响, 防守影响] - 正值表示有利，负值表示不利
+ */
+function weatherImpact(weather?: Weather): { attackMod: number; defenseMod: number; paceMod: number } {
+  if (!weather) return { attackMod: 0, defenseMod: 0, paceMod: 0 };
+
+  let attackMod = 0;
+  let defenseMod = 0;
+  let paceMod = 0;
+
+  // 雨天：技术流球队进攻受阻，防守反击球队受益
+  if (weather.condition.toLowerCase().includes('rain') || weather.condition.includes('雨')) {
+    attackMod = -5;
+    defenseMod = 3;
+    paceMod = -8;
+  }
+  // 大风：长传和定位球受影响
+  if (weather.windSpeed > 8) {
+    attackMod -= 3;
+    defenseMod += 2;
+  }
+  // 高温：体能消耗大
+  if (weather.temp > 32) {
+    attackMod -= 4;
+    defenseMod -= 2;
+    paceMod -= 5;
+  }
+  // 低温
+  if (weather.temp < 5) {
+    attackMod -= 2;
+    defenseMod += 1;
+    paceMod -= 3;
+  }
+  // 湿度高：场地湿滑
+  if (weather.humidity > 85) {
+    paceMod -= 3;
+    attackMod -= 2;
+  }
+
+  return { attackMod, defenseMod, paceMod };
 }
 
 function generateEvents(
@@ -143,7 +186,7 @@ export function useSimulation() {
   const [isSimulating, setIsSimulating] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  const simulate = useCallback((homeTeam: Team, awayTeam: Team, runs: number = 10000) => {
+  const simulate = useCallback((homeTeam: Team, awayTeam: Team, runs: number = 100000, weather?: Weather) => {
     setIsSimulating(true);
     setProgress(0);
 
@@ -151,28 +194,41 @@ export function useSimulation() {
     const awayStrength = awayTeam.overallRating;
     const homeAdv = 1.08; // home advantage factor
 
-    const adjHome = clamp(homeStrength * homeAdv, 50, 100);
-    const adjAway = clamp(awayStrength, 50, 100);
+    // 天气影响
+    const wi = weatherImpact(weather);
+    const adjHome = clamp((homeStrength + wi.attackMod * 0.5) * homeAdv, 40, 100);
+    const adjAway = clamp(awayStrength + wi.attackMod * 0.3, 40, 100);
 
-    const lambda_home = clamp((adjHome / 100) * 2.2, 0.3, 3.5);
-    const lambda_away = clamp((adjAway / 100) * 2.2, 0.3, 3.5);
+    // 天气影响lambda基数
+    const paceMod = 1 + (wi.paceMod / 100);
+
+    const lambda_home = clamp((adjHome / 100) * 2.2 * paceMod, 0.2, 4.0);
+    const lambda_away = clamp((adjAway / 100) * 2.2 * paceMod, 0.2, 4.0);
 
     let interval: ReturnType<typeof setInterval>;
     let iteration = 0;
-    const batchSize = runs / 10;
+    const batchSize = runs / 20; // 20批次，每批5000次
 
     const homeScores: number[] = [];
     const awayScores: number[] = [];
+    const homeWins = { count: 0 };
+    const awayWins = { count: 0 };
+    const draws = { count: 0 };
 
     interval = setInterval(() => {
       for (let i = 0; i < batchSize; i++) {
-        homeScores.push(poissonRandom(lambda_home));
-        awayScores.push(poissonRandom(lambda_away));
+        const h = poissonRandom(lambda_home);
+        const a = poissonRandom(lambda_away);
+        homeScores.push(h);
+        awayScores.push(a);
+        if (h > a) homeWins.count++;
+        else if (a > h) awayWins.count++;
+        else draws.count++;
       }
       iteration++;
-      setProgress(Math.round((iteration / 10) * 100));
+      setProgress(Math.round((iteration / 20) * 100));
 
-      if (iteration >= 10) {
+      if (iteration >= 20) {
         clearInterval(interval);
 
         // Pick final result based on most common outcome
@@ -199,6 +255,7 @@ export function useSimulation() {
         const winner = finalHomeScore > finalAwayScore ? 'home' :
           finalAwayScore > finalHomeScore ? 'away' : 'draw';
 
+        // Weather-adjusted possession
         const homePoss = clamp(45 + (adjHome - adjAway) * 0.15 + (Math.random() - 0.5) * 8, 35, 65);
         const homeShots = Math.round(clamp(8 + (adjHome / 100) * 8 + Math.random() * 4, 5, 22));
         const awayShots = Math.round(clamp(8 + (adjAway / 100) * 8 + Math.random() * 4, 5, 22));
@@ -241,7 +298,7 @@ export function useSimulation() {
         setIsSimulating(false);
         setProgress(100);
       }
-    }, 150);
+    }, 100); // 更快的间隔因为批次更多
   }, []);
 
   const reset = useCallback(() => {

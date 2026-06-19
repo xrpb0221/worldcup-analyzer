@@ -252,7 +252,12 @@ function TeamDetail({ team, onClose }: { team: Team; onClose: () => void }) {
 
 const allGroups = ['all', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'];
 
-export default function TeamsSection() {
+interface TeamsSectionProps {
+  onViewTeam?: (teamId: string) => void;
+  onViewPlayer?: (playerId: string, teamId: string) => void;
+}
+
+export default function TeamsSection({ onViewTeam, onViewPlayer }: TeamsSectionProps = {}) {
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [groupFilter, setGroupFilter] = useState('all');
@@ -336,7 +341,7 @@ export default function TeamsSection() {
               <div
                 key={team.id}
                 className="bg-white rounded-xl border border-slate-100 p-5 cursor-pointer match-card-hover shadow-sm"
-                onClick={() => setSelectedTeam(team)}
+                onClick={() => onViewTeam ? onViewTeam(team.id) : setSelectedTeam(team)}
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
@@ -396,7 +401,11 @@ export default function TeamsSection() {
                 <div className="flex items-center justify-between mt-3 pt-2 border-t border-slate-50">
                   <div className="flex flex-wrap gap-1">
                     {team.keyPlayers.slice(0, 3).map(p => (
-                      <span key={p.id} className="text-xs text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded">{p.name}</span>
+                      <span
+                        key={p.id}
+                        className={`text-xs px-1.5 py-0.5 rounded ${onViewPlayer ? 'text-blue-500 bg-blue-50 hover:bg-blue-100 cursor-pointer' : 'text-slate-400 bg-slate-50'}`}
+                        onClick={(e) => { if (onViewPlayer) { e.stopPropagation(); onViewPlayer(p.id, team.id); } }}
+                      >{p.name}</span>
                     ))}
                     {team.keyPlayers.length > 3 && (
                       <span className="text-xs text-blue-500">{`+${team.keyPlayers.length - 3}人`}</span>

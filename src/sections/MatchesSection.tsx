@@ -3,8 +3,11 @@ import { getTeamById } from '@/data/teams';
 import { matches as staticMatches, stadiums } from '@/data/stadiums';
 import { getMergedMatches, fetchLiveMatchData } from '@/data/liveData';
 import type { LiveMatchUpdate } from '@/data/liveData';
-import type { Stadium, Match } from '@/types';
-import { Calendar, Clock, MapPin, Timer, RefreshCw, Zap } from 'lucide-react';
+import type { Stadium, Match, Team } from '@/types';
+import { Calendar, Clock, MapPin, Timer, RefreshCw, Zap, Download } from 'lucide-react';
+import { exportAllMatches, exportFavoriteMatches } from '@/data/calendarExport';
+import { useI18n } from '@/i18n';
+import MatchSimPanel from '@/sections/MatchSimPanel';
 
 function getStadiumById(id: string): Stadium | undefined {
   return stadiums.find(s => s.id === id);
@@ -42,14 +45,22 @@ const statusOptions = [
 
 interface MatchesSectionProps {
   onNavigateToSim?: () => void;
+  onViewTeam?: (teamId: string) => void;
+  onViewPlayer?: (playerId: string, teamId: string) => void;
+  favoriteTeamIds?: string[];
 }
 
-export default function MatchesSection({ onNavigateToSim }: MatchesSectionProps) {
+// 模拟面板状态
+type SimState = { homeTeam: Team; awayTeam: Team; match: Match } | null;
+
+export default function MatchesSection({ onNavigateToSim, onViewTeam, onViewPlayer, favoriteTeamIds }: MatchesSectionProps) {
+  const { t, lang } = useI18n();
   const [groupFilter, setGroupFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
   const [liveUpdates, setLiveUpdates] = useState<Record<string, LiveMatchUpdate>>({});
   const [isFetching, setIsFetching] = useState(false);
   const [lastFetchTime, setLastFetchTime] = useState<string | null>(null);
+  const [simState, setSimState] = useState<SimState>(null);
 
   const isFetchingRef = useRef(false);
 
@@ -110,27 +121,45 @@ export default function MatchesSection({ onNavigateToSim }: MatchesSectionProps)
 
   return (
     <div className="space-y-5 animate-fade-in">
-      {/* 数据状态栏（简洁版） */}
-      <div className="flex items-center justify-between bg-white rounded-xl border border-slate-100 p-3 shadow-sm">
-        <div className="flex items-center gap-2 text-sm text-slate-600">
+      {/* 数据状态栏 + 日历导出 */}
+      <div className="flex items-center justify-between bg-white rounded-xl border border-slate-100 p-3 shadow-sm gap-2">
+        <div className="flex items-center gap-2 text-sm text-slate-600 min-w-0">
           <span className="flex items-center gap-1.5">
             <span className={`w-2 h-2 rounded-full ${apiUpdatedCount > 0 ? 'bg-green-500' : 'bg-slate-300'}`} />
-            {apiUpdatedCount > 0 ? `已同步 ${apiUpdatedCount} 场数据` : '使用本地数据'}
+            {apiUpdatedCount > 0 ? (lang === 'en' ? `Synced ${apiUpdatedCount} matches` : `已同步 ${apiUpdatedCount} 场数据`) : (lang === 'en' ? 'Local data' : '使用本地数据')}
           </span>
           {lastFetchTime && (
             <span className="text-xs text-slate-400">
-              · {new Date(lastFetchTime).toLocaleTimeString('zh-CN')} 更新
+              · {new Date(lastFetchTime).toLocaleTimeString(lang === 'en' ? 'en-US' : 'zh-CN')} {lang === 'en' ? 'updated' : '更新'}
             </span>
           )}
         </div>
-        <button
-          onClick={doFetch}
-          disabled={isFetching}
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 rounded-lg text-xs font-medium text-slate-600 transition-colors disabled:opacity-50 cursor-pointer"
-        >
-          <RefreshCw className={`w-3.5 h-3.5 ${isFetching ? 'animate-spin' : ''}`} />
-          {isFetching ? '同步中...' : '刷新'}
-        </button>
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <button
+            onClick={() => exportAllMatches()}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 rounded-lg text-xs font-medium text-blue-700 transition-colors cursor-pointer"
+          >
+            <Download className="w-3.5 h-3.5" />
+            {t('matches.exportAll')}
+          </button>
+          {favoriteTeamIds && favoriteTeamIds.length > 0 && (
+            <button
+              onClick={() => exportFavoriteMatches(favoriteTeamIds)}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 rounded-lg text-xs font-medium text-amber-700 transition-colors cursor-pointer"
+            >
+              <Download className="w-3.5 h-3.5" />
+              {t('matches.exportFav')}
+            </button>
+          )}
+          <button
+            onClick={doFetch}
+            disabled={isFetching}
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 hover:bg-slate-100 rounded-lg text-xs font-medium text-slate-600 transition-colors disabled:opacity-50 cursor-pointer"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${isFetching ? 'animate-spin' : ''}`} />
+            {isFetching ? (lang === 'en' ? 'Syncing...' : '同步中...') : (lang === 'en' ? 'Refresh' : '刷新')}
+          </button>
+        </div>
       </div>
 
       {/* Filters */}
@@ -256,7 +285,9 @@ export default function MatchesSection({ onNavigateToSim }: MatchesSectionProps)
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2 flex-1 min-w-0">
                       {homeFlag && <span className="text-2xl flex-shrink-0">{homeFlag}</span>}
-                      <span className="font-bold text-sm truncate text-slate-800">{homeName}</span>
+                      <span className="font-bold text-sm truncate text-slate-800 hover:text-blue-600 cursor-pointer transition-colors"
+                        onClick={(e) => { e.stopPropagation(); if (onViewTeam && homeTeam) onViewTeam(homeTeam.id); }}
+                      >{homeName}</span>
                     </div>
 
                     <div className="text-center mx-3 flex-shrink-0">
@@ -282,18 +313,21 @@ export default function MatchesSection({ onNavigateToSim }: MatchesSectionProps)
                           )}
                         </div>
                       )}
-                      {!isTbd && (
+                      {!isTbd && homeTeam && awayTeam && (
                         <button
-                          onClick={() => onNavigateToSim?.()}
-                          className="mt-1 text-xs text-blue-600 hover:text-blue-800 cursor-pointer mx-auto"
+                          onClick={() => setSimState({ homeTeam, awayTeam, match })}
+                          className="mt-1 flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:from-blue-600 hover:to-indigo-600 shadow-sm hover:shadow-md transition-all cursor-pointer"
                         >
-                          🎮 模拟
+                          <Zap className="w-3 h-3" />
+                          {lang === 'en' ? 'Simulate' : '模拟'}
                         </button>
                       )}
                     </div>
 
                     <div className="flex items-center gap-2 flex-1 min-w-0 justify-end">
-                      <span className="font-bold text-slate-800 text-sm text-right truncate">{awayName}</span>
+                      <span className="font-bold text-slate-800 text-sm text-right truncate hover:text-blue-600 cursor-pointer transition-colors"
+                        onClick={(e) => { e.stopPropagation(); if (onViewTeam && awayTeam) onViewTeam(awayTeam.id); }}
+                      >{awayName}</span>
                       {awayFlag && <span className="text-2xl flex-shrink-0">{awayFlag}</span>}
                     </div>
                   </div>
@@ -320,6 +354,16 @@ export default function MatchesSection({ onNavigateToSim }: MatchesSectionProps)
       <div className="text-center text-xs text-slate-400 py-2">
         📡 数据由服务器定时更新 · {lastFetchTime ? `上次同步：${new Date(lastFetchTime).toLocaleTimeString('zh-CN')}` : '本地数据'}
       </div>
+
+      {/* 比赛模拟面板 */}
+      {simState && (
+        <MatchSimPanel
+          homeTeam={simState.homeTeam}
+          awayTeam={simState.awayTeam}
+          match={simState.match}
+          onClose={() => setSimState(null)}
+        />
+      )}
     </div>
   );
 }
