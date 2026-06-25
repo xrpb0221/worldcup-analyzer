@@ -326,7 +326,11 @@ export function validateConfig(): void {
   console.log('✅ 预测引擎配置验证通过');
 }
 
-// 开发环境下自动验证
-if (process.env.NODE_ENV === 'development') {
-  validateConfig();
+// 开发环境下自动验证（安全引用 process）
+try {
+  if ((globalThis as any).process?.env?.NODE_ENV === 'development') {
+    validateConfig();
+  }
+} catch (_e) {
+  // 浏览器环境无 process，跳过
 }

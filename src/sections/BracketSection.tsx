@@ -421,9 +421,6 @@ export default function BracketSection() {
                           ) : (
                             <span className={`truncate ${home.isTBD ? 'text-slate-300 italic' : 'text-slate-400 italic'}`}>{home.label}</span>
                           )}
-                          {slot.homeScore != null && (
-                            <span className="ml-auto font-bold text-blue-700">{slot.homeScore}</span>
-                          )}
                         </div>
 
                         {/* 客队行 */}
@@ -435,9 +432,6 @@ export default function BracketSection() {
                             </>
                           ) : (
                             <span className={`truncate ${away.isTBD ? 'text-slate-300 italic' : 'text-slate-400 italic'}`}>{away.label}</span>
-                          )}
-                          {slot.awayScore != null && (
-                            <span className="ml-auto font-bold text-blue-700">{slot.awayScore}</span>
                           )}
                         </div>
 

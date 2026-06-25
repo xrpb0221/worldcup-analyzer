@@ -48,87 +48,173 @@ STADIUM_COORDS = {
 }
 
 # ========== 完整赛程数据（与前端 stadiums.ts 完全同步）==========
-# 包含所有48场小组赛 + 淘汰赛
-# 已完赛比赛包含确认比分，未开赛比赛 status='upcoming'
+# 2026美加墨世界杯 - 48队12组赛制
+# 数据截至 2026-06-25：A/B/C组3轮完赛，D-L组2轮完赛
 FULL_SCHEDULE = [
-    # === A组首轮（6月11日）===
+    # === A组 第1轮（6月11日）===
     {'id': 'm1',  'homeTeamId': 'mexico',       'awayTeamId': 'south-africa',   'homeTeamName': 'Mexico',          'awayTeamName': 'South Africa',        'date': '2026-06-11', 'time': '15:00', 'stadiumId': 'estadio-azteca', 'group': 'A', 'stage': 'Group A', 'homeScore': 2, 'awayScore': 0, 'status': 'finished'},
     {'id': 'm2',  'homeTeamId': 'south-korea',  'awayTeamId': 'czech',          'homeTeamName': 'South Korea',     'awayTeamName': 'Czech Republic',      'date': '2026-06-11', 'time': '22:00', 'stadiumId': 'guadalajara',    'group': 'A', 'stage': 'Group A', 'homeScore': 2, 'awayScore': 1, 'status': 'finished'},
 
-    # === B组首轮（6月12-13日）===
+    # === B组 第1轮（6月12-13日）===
     {'id': 'm3',  'homeTeamId': 'canada',        'awayTeamId': 'bosnia',         'homeTeamName': 'Canada',          'awayTeamName': 'Bosnia-Herzegovina',  'date': '2026-06-12', 'time': '15:00', 'stadiumId': 'toronto',        'group': 'B', 'stage': 'Group B', 'homeScore': 1, 'awayScore': 1, 'status': 'finished'},
-    {'id': 'm4',  'homeTeamId': 'qatar',         'awayTeamId': 'switzerland',    'homeTeamName': 'Qatar',           'awayTeamName': 'Switzerland',         'date': '2026-06-13', 'time': '15:00', 'stadiumId': 'vancouver',     'group': 'B', 'stage': 'Group B', 'homeScore': 1, 'awayScore': 1, 'status': 'finished'},
+    {'id': 'm4',  'homeTeamId': 'qatar',         'awayTeamId': 'switzerland',    'homeTeamName': 'Qatar',           'awayTeamName': 'Switzerland',         'date': '2026-06-13', 'time': '15:00', 'stadiumId': 'san-francisco',  'group': 'B', 'stage': 'Group B', 'homeScore': 1, 'awayScore': 1, 'status': 'finished'},
 
-    # === C组首轮（6月13日）===
-    {'id': 'm5',  'homeTeamId': 'brazil',        'awayTeamId': 'morocco',        'homeTeamName': 'Brazil',          'awayTeamName': 'Morocco',             'date': '2026-06-13', 'time': '18:00', 'stadiumId': 'los-angeles',    'group': 'C', 'stage': 'Group C', 'homeScore': 1, 'awayScore': 1, 'status': 'finished'},
-    {'id': 'm6',  'homeTeamId': 'haiti',         'awayTeamId': 'scotland',       'homeTeamName': 'Haiti',           'awayTeamName': 'Scotland',            'date': '2026-06-13', 'time': '21:00', 'stadiumId': 'houston',        'group': 'C', 'stage': 'Group C', 'homeScore': 0, 'awayScore': 1, 'status': 'finished'},
+    # === C组 第1轮（6月13日）===
+    {'id': 'm5',  'homeTeamId': 'brazil',        'awayTeamId': 'morocco',        'homeTeamName': 'Brazil',          'awayTeamName': 'Morocco',             'date': '2026-06-13', 'time': '18:00', 'stadiumId': 'new-york',       'group': 'C', 'stage': 'Group C', 'homeScore': 1, 'awayScore': 1, 'status': 'finished'},
+    {'id': 'm6',  'homeTeamId': 'haiti',         'awayTeamId': 'scotland',       'homeTeamName': 'Haiti',           'awayTeamName': 'Scotland',            'date': '2026-06-13', 'time': '21:00', 'stadiumId': 'boston',         'group': 'C', 'stage': 'Group C', 'homeScore': 0, 'awayScore': 1, 'status': 'finished'},
 
-    # === D组首轮（6月12-13日）===
-    {'id': 'm7',  'homeTeamId': 'usa',           'awayTeamId': 'paraguay',      'homeTeamName': 'USA',             'awayTeamName': 'Paraguay',             'date': '2026-06-12', 'time': '21:00', 'stadiumId': 'atlanta',       'group': 'D', 'stage': 'Group D', 'homeScore': 4, 'awayScore': 1, 'status': 'finished'},
-    {'id': 'm8',  'homeTeamId': 'australia',     'awayTeamId': 'turkey',         'homeTeamName': 'Australia',       'awayTeamName': 'Turkey',               'date': '2026-06-13', 'time': '00:00', 'stadiumId': 'san-francisco', 'group': 'D', 'stage': 'Group D', 'homeScore': 2, 'awayScore': 0, 'status': 'finished'},
+    # === D组 第1轮（6月12-14日）===
+    {'id': 'm7',  'homeTeamId': 'usa',           'awayTeamId': 'paraguay',      'homeTeamName': 'USA',             'awayTeamName': 'Paraguay',             'date': '2026-06-12', 'time': '21:00', 'stadiumId': 'los-angeles',    'group': 'D', 'stage': 'Group D', 'homeScore': 4, 'awayScore': 1, 'status': 'finished'},
+    {'id': 'm8',  'homeTeamId': 'australia',     'awayTeamId': 'turkey',         'homeTeamName': 'Australia',       'awayTeamName': 'Turkey',               'date': '2026-06-14', 'time': '00:00', 'stadiumId': 'vancouver',      'group': 'D', 'stage': 'Group D', 'homeScore': 2, 'awayScore': 0, 'status': 'finished'},
 
-    # === E组首轮（6月14日）===
-    {'id': 'm9',  'homeTeamId': 'germany',       'awayTeamId': 'curacao',        'homeTeamName': 'Germany',         'awayTeamName': 'Curacao',              'date': '2026-06-14', 'time': '13:00', 'stadiumId': 'dallas',        'group': 'E', 'stage': 'Group E', 'homeScore': 7, 'awayScore': 1, 'status': 'finished'},
-    {'id': 'm10', 'homeTeamId': 'ivory-coast',   'awayTeamId': 'ecuador',        'homeTeamName': 'Ivory Coast',    'awayTeamName': 'Ecuador',              'date': '2026-06-14', 'time': '19:00', 'stadiumId': 'boston',         'group': 'E', 'stage': 'Group E', 'homeScore': 1, 'awayScore': 0, 'status': 'finished'},
+    # === E组 第1轮（6月14日）===
+    {'id': 'm9',  'homeTeamId': 'germany',       'awayTeamId': 'curacao',        'homeTeamName': 'Germany',         'awayTeamName': 'Curacao',              'date': '2026-06-14', 'time': '13:00', 'stadiumId': 'houston',        'group': 'E', 'stage': 'Group E', 'homeScore': 7, 'awayScore': 1, 'status': 'finished'},
+    {'id': 'm10', 'homeTeamId': 'ivory-coast',   'awayTeamId': 'ecuador',        'homeTeamName': 'Ivory Coast',    'awayTeamName': 'Ecuador',              'date': '2026-06-14', 'time': '19:00', 'stadiumId': 'philadelphia',   'group': 'E', 'stage': 'Group E', 'homeScore': 1, 'awayScore': 0, 'status': 'finished'},
 
-    # === F组首轮（6月14日）===
-    {'id': 'm11', 'homeTeamId': 'netherlands',   'awayTeamId': 'japan',          'homeTeamName': 'Netherlands',    'awayTeamName': 'Japan',                'date': '2026-06-14', 'time': '16:00', 'stadiumId': 'new-york',       'group': 'F', 'stage': 'Group F', 'homeScore': 2, 'awayScore': 2, 'status': 'finished'},
-    {'id': 'm12', 'homeTeamId': 'sweden',        'awayTeamId': 'tunisia',        'homeTeamName': 'Sweden',          'awayTeamName': 'Tunisia',              'date': '2026-06-14', 'time': '22:00', 'stadiumId': 'kansas-city',    'group': 'F', 'stage': 'Group F', 'homeScore': 5, 'awayScore': 1, 'status': 'finished'},
+    # === F组 第1轮（6月14日）===
+    {'id': 'm11', 'homeTeamId': 'netherlands',   'awayTeamId': 'japan',          'homeTeamName': 'Netherlands',    'awayTeamName': 'Japan',                'date': '2026-06-14', 'time': '16:00', 'stadiumId': 'dallas',         'group': 'F', 'stage': 'Group F', 'homeScore': 2, 'awayScore': 2, 'status': 'finished'},
+    {'id': 'm12', 'homeTeamId': 'sweden',        'awayTeamId': 'tunisia',        'homeTeamName': 'Sweden',          'awayTeamName': 'Tunisia',              'date': '2026-06-14', 'time': '22:00', 'stadiumId': 'monterrey',      'group': 'F', 'stage': 'Group F', 'homeScore': 5, 'awayScore': 1, 'status': 'finished'},
 
-    # === G组首轮（6月16日）===
-    {'id': 'm13', 'homeTeamId': 'belgium',       'awayTeamId': 'egypt',          'homeTeamName': 'Belgium',         'awayTeamName': 'Egypt',                'date': '2026-06-16', 'time': '03:00', 'stadiumId': 'miami',          'group': 'G', 'stage': 'Group G', 'homeScore': 1, 'awayScore': 1, 'status': 'finished'},
-    {'id': 'm14', 'homeTeamId': 'iran',          'awayTeamId': 'new-zealand',    'homeTeamName': 'Iran',            'awayTeamName': 'New Zealand',          'date': '2026-06-16', 'time': '09:00', 'stadiumId': 'seattle',        'group': 'G', 'stage': 'Group G', 'homeScore': 2, 'awayScore': 2, 'status': 'finished'},
+    # === G组 第1轮（6月15-16日）===
+    {'id': 'm13', 'homeTeamId': 'belgium',       'awayTeamId': 'egypt',          'homeTeamName': 'Belgium',         'awayTeamName': 'Egypt',                'date': '2026-06-15', 'time': '15:00', 'stadiumId': 'seattle',        'group': 'G', 'stage': 'Group G', 'homeScore': 1, 'awayScore': 1, 'status': 'finished'},
+    {'id': 'm14', 'homeTeamId': 'iran',          'awayTeamId': 'new-zealand',    'homeTeamName': 'Iran',            'awayTeamName': 'New Zealand',          'date': '2026-06-15', 'time': '21:00', 'stadiumId': 'los-angeles',    'group': 'G', 'stage': 'Group G', 'homeScore': 2, 'awayScore': 2, 'status': 'finished'},
 
-    # === H组首轮（6月16日）===
-    {'id': 'm15', 'homeTeamId': 'spain',         'awayTeamId': 'cape-verde',     'homeTeamName': 'Spain',           'awayTeamName': 'Cape Verde',           'date': '2026-06-16', 'time': '00:00', 'stadiumId': 'philadelphia',   'group': 'H', 'stage': 'Group H', 'homeScore': 0, 'awayScore': 0, 'status': 'finished'},
-    {'id': 'm16', 'homeTeamId': 'saudi-arabia',  'awayTeamId': 'uruguay',        'homeTeamName': 'Saudi Arabia',    'awayTeamName': 'Uruguay',              'date': '2026-06-16', 'time': '06:00', 'stadiumId': 'houston',        'group': 'H', 'stage': 'Group H', 'homeScore': 1, 'awayScore': 1, 'status': 'finished'},
+    # === H组 第1轮（6月15-16日）===
+    {'id': 'm15', 'homeTeamId': 'spain',         'awayTeamId': 'cape-verde',     'homeTeamName': 'Spain',           'awayTeamName': 'Cape Verde',           'date': '2026-06-15', 'time': '12:00', 'stadiumId': 'atlanta',        'group': 'H', 'stage': 'Group H', 'homeScore': 0, 'awayScore': 0, 'status': 'finished'},
+    {'id': 'm16', 'homeTeamId': 'saudi-arabia',  'awayTeamId': 'uruguay',        'homeTeamName': 'Saudi Arabia',    'awayTeamName': 'Uruguay',              'date': '2026-06-15', 'time': '18:00', 'stadiumId': 'miami',          'group': 'H', 'stage': 'Group H', 'homeScore': 1, 'awayScore': 1, 'status': 'finished'},
 
-    # === I组首轮（6月16日）===
-    {'id': 'm17', 'homeTeamId': 'france',        'awayTeamId': 'senegal',        'homeTeamName': 'France',          'awayTeamName': 'Senegal',              'date': '2026-06-16', 'time': '15:00', 'stadiumId': 'los-angeles',    'group': 'I', 'stage': 'Group I', 'homeScore': 3, 'awayScore': 1, 'status': 'finished'},
-    {'id': 'm18', 'homeTeamId': 'iraq',          'awayTeamId': 'norway',         'homeTeamName': 'Iraq',            'awayTeamName': 'Norway',               'date': '2026-06-16', 'time': '18:00', 'stadiumId': 'atlanta',       'group': 'I', 'stage': 'Group I', 'homeScore': 1, 'awayScore': 4, 'status': 'finished'},
+    # === I组 第1轮（6月16日）===
+    {'id': 'm17', 'homeTeamId': 'france',        'awayTeamId': 'senegal',        'homeTeamName': 'France',          'awayTeamName': 'Senegal',              'date': '2026-06-16', 'time': '15:00', 'stadiumId': 'new-york',       'group': 'I', 'stage': 'Group I', 'homeScore': 3, 'awayScore': 1, 'status': 'finished'},
+    {'id': 'm18', 'homeTeamId': 'iraq',          'awayTeamId': 'norway',         'homeTeamName': 'Iraq',            'awayTeamName': 'Norway',               'date': '2026-06-16', 'time': '18:00', 'stadiumId': 'boston',         'group': 'I', 'stage': 'Group I', 'homeScore': 1, 'awayScore': 4, 'status': 'finished'},
 
-    # === J组首轮（6月17日）===
-    {'id': 'm19', 'homeTeamId': 'argentina',     'awayTeamId': 'algeria',        'homeTeamName': 'Argentina',       'awayTeamName': 'Algeria',              'date': '2026-06-17', 'time': '09:00', 'stadiumId': 'dallas',         'group': 'J', 'stage': 'Group J', 'homeScore': 3, 'awayScore': 0, 'status': 'finished'},
-    {'id': 'm20', 'homeTeamId': 'austria',       'awayTeamId': 'jordan',         'homeTeamName': 'Austria',         'awayTeamName': 'Jordan',               'date': '2026-06-17', 'time': '12:00', 'stadiumId': 'san-francisco', 'group': 'J', 'stage': 'Group J', 'homeScore': 3, 'awayScore': 1, 'status': 'finished'},
+    # === J组 第1轮（6月16-17日）===
+    {'id': 'm19', 'homeTeamId': 'argentina',     'awayTeamId': 'algeria',        'homeTeamName': 'Argentina',       'awayTeamName': 'Algeria',              'date': '2026-06-16', 'time': '21:00', 'stadiumId': 'kansas-city',    'group': 'J', 'stage': 'Group J', 'homeScore': 3, 'awayScore': 0, 'status': 'finished'},
+    {'id': 'm20', 'homeTeamId': 'austria',       'awayTeamId': 'jordan',         'homeTeamName': 'Austria',         'awayTeamName': 'Jordan',               'date': '2026-06-17', 'time': '00:00', 'stadiumId': 'san-francisco',  'group': 'J', 'stage': 'Group J', 'homeScore': 3, 'awayScore': 1, 'status': 'finished'},
 
-    # === K组首轮（6月17日）===
-    {'id': 'm21', 'homeTeamId': 'portugal',      'awayTeamId': 'dr-congo',       'homeTeamName': 'Portugal',        'awayTeamName': 'DR Congo',             'date': '2026-06-17', 'time': '01:00', 'stadiumId': 'new-york',       'group': 'K', 'stage': 'Group K', 'homeScore': 1, 'awayScore': 1, 'status': 'finished'},
-    {'id': 'm22', 'homeTeamId': 'uzbekistan',    'awayTeamId': 'colombia',       'homeTeamName': 'Uzbekistan',      'awayTeamName': 'Colombia',             'date': '2026-06-17', 'time': '10:00', 'stadiumId': 'boston',         'group': 'K', 'stage': 'Group K', 'homeScore': 1, 'awayScore': 3, 'status': 'finished'},
+    # === K组 第1轮（6月17日）===
+    {'id': 'm21', 'homeTeamId': 'portugal',      'awayTeamId': 'dr-congo',       'homeTeamName': 'Portugal',        'awayTeamName': 'DR Congo',             'date': '2026-06-17', 'time': '13:00', 'stadiumId': 'houston',        'group': 'K', 'stage': 'Group K', 'homeScore': 1, 'awayScore': 1, 'status': 'finished'},
+    {'id': 'm22', 'homeTeamId': 'uzbekistan',    'awayTeamId': 'colombia',       'homeTeamName': 'Uzbekistan',      'awayTeamName': 'Colombia',             'date': '2026-06-17', 'time': '22:00', 'stadiumId': 'estadio-azteca', 'group': 'K', 'stage': 'Group K', 'homeScore': 1, 'awayScore': 3, 'status': 'finished'},
 
-    # === L组首轮（6月17日）===
-    {'id': 'm23', 'homeTeamId': 'england',       'awayTeamId': 'croatia',        'homeTeamName': 'England',         'awayTeamName': 'Croatia',              'date': '2026-06-17', 'time': '04:00', 'stadiumId': 'philadelphia',   'group': 'L', 'stage': 'Group L', 'homeScore': 4, 'awayScore': 2, 'status': 'finished'},
-    {'id': 'm24', 'homeTeamId': 'ghana',         'awayTeamId': 'panama',         'homeTeamName': 'Ghana',           'awayTeamName': 'Panama',               'date': '2026-06-17', 'time': '07:00', 'stadiumId': 'vancouver',     'group': 'L', 'stage': 'Group L', 'homeScore': 1, 'awayScore': 0, 'status': 'finished'},
+    # === L组 第1轮（6月17日）===
+    {'id': 'm23', 'homeTeamId': 'england',       'awayTeamId': 'croatia',        'homeTeamName': 'England',         'awayTeamName': 'Croatia',              'date': '2026-06-17', 'time': '16:00', 'stadiumId': 'dallas',         'group': 'L', 'stage': 'Group L', 'homeScore': 4, 'awayScore': 2, 'status': 'finished'},
+    {'id': 'm24', 'homeTeamId': 'ghana',         'awayTeamId': 'panama',         'homeTeamName': 'Ghana',           'awayTeamName': 'Panama',               'date': '2026-06-17', 'time': '19:00', 'stadiumId': 'toronto',        'group': 'L', 'stage': 'Group L', 'homeScore': 1, 'awayScore': 0, 'status': 'finished'},
 
-    # === A组第2轮（6月18日）===
-    {'id': 'm25', 'homeTeamId': 'mexico',        'awayTeamId': 'south-korea',    'homeTeamName': 'Mexico',          'awayTeamName': 'South Korea',         'date': '2026-06-18', 'time': '15:00', 'stadiumId': 'estadio-azteca', 'group': 'A', 'stage': 'Group A', 'status': 'upcoming'},
-    {'id': 'm26', 'homeTeamId': 'czech',         'awayTeamId': 'south-africa',   'homeTeamName': 'Czech Republic',  'awayTeamName': 'South Africa',         'date': '2026-06-18', 'time': '22:00', 'stadiumId': 'monterrey',      'group': 'A', 'stage': 'Group A', 'status': 'upcoming'},
+    # === A组 第2轮（6月18日）===
+    {'id': 'm25', 'homeTeamId': 'czech',         'awayTeamId': 'south-africa',   'homeTeamName': 'Czech Republic',  'awayTeamName': 'South Africa',         'date': '2026-06-18', 'time': '12:00', 'stadiumId': 'atlanta',        'group': 'A', 'stage': 'Group A', 'homeScore': 1, 'awayScore': 1, 'status': 'finished'},
+    {'id': 'm26', 'homeTeamId': 'mexico',        'awayTeamId': 'south-korea',    'homeTeamName': 'Mexico',          'awayTeamName': 'South Korea',         'date': '2026-06-18', 'time': '21:00', 'stadiumId': 'guadalajara',    'group': 'A', 'stage': 'Group A', 'homeScore': 1, 'awayScore': 0, 'status': 'finished'},
 
-    # === B组第2轮（6月18日）===
-    {'id': 'm27', 'homeTeamId': 'canada',        'awayTeamId': 'switzerland',    'homeTeamName': 'Canada',          'awayTeamName': 'Switzerland',         'date': '2026-06-18', 'time': '15:00', 'stadiumId': 'vancouver',     'group': 'B', 'stage': 'Group B', 'status': 'upcoming'},
-    {'id': 'm28', 'homeTeamId': 'bosnia',        'awayTeamId': 'qatar',          'homeTeamName': 'Bosnia',          'awayTeamName': 'Qatar',               'date': '2026-06-18', 'time': '22:00', 'stadiumId': 'toronto',        'group': 'B', 'stage': 'Group B', 'status': 'upcoming'},
+    # === B组 第2轮（6月18日）===
+    {'id': 'm27', 'homeTeamId': 'switzerland',   'awayTeamId': 'bosnia',         'homeTeamName': 'Switzerland',    'awayTeamName': 'Bosnia-Herzegovina',   'date': '2026-06-18', 'time': '15:00', 'stadiumId': 'los-angeles',    'group': 'B', 'stage': 'Group B', 'homeScore': 4, 'awayScore': 1, 'status': 'finished'},
+    {'id': 'm28', 'homeTeamId': 'canada',        'awayTeamId': 'qatar',          'homeTeamName': 'Canada',          'awayTeamName': 'Qatar',               'date': '2026-06-18', 'time': '18:00', 'stadiumId': 'vancouver',      'group': 'B', 'stage': 'Group B', 'homeScore': 6, 'awayScore': 0, 'status': 'finished'},
 
-    # === C组第2轮（6月19日）===
-    {'id': 'm29', 'homeTeamId': 'brazil',        'awayTeamId': 'scotland',       'homeTeamName': 'Brazil',          'awayTeamName': 'Scotland',            'date': '2026-06-19', 'time': '15:00', 'stadiumId': 'los-angeles',    'group': 'C', 'stage': 'Group C', 'status': 'upcoming'},
-    {'id': 'm30', 'homeTeamId': 'morocco',       'awayTeamId': 'haiti',          'homeTeamName': 'Morocco',         'awayTeamName': 'Haiti',                'date': '2026-06-19', 'time': '21:00', 'stadiumId': 'miami',          'group': 'C', 'stage': 'Group C', 'status': 'upcoming'},
+    # === C组 第2轮（6月19日）===
+    {'id': 'm29', 'homeTeamId': 'brazil',        'awayTeamId': 'haiti',          'homeTeamName': 'Brazil',          'awayTeamName': 'Haiti',                'date': '2026-06-19', 'time': '20:30', 'stadiumId': 'philadelphia',   'group': 'C', 'stage': 'Group C', 'homeScore': 3, 'awayScore': 0, 'status': 'finished'},
+    {'id': 'm30', 'homeTeamId': 'scotland',      'awayTeamId': 'morocco',        'homeTeamName': 'Scotland',        'awayTeamName': 'Morocco',              'date': '2026-06-19', 'time': '18:00', 'stadiumId': 'boston',         'group': 'C', 'stage': 'Group C', 'homeScore': 0, 'awayScore': 1, 'status': 'finished'},
 
-    # === D组第2轮（6月19日）===
-    {'id': 'm31', 'homeTeamId': 'usa',           'awayTeamId': 'australia',      'homeTeamName': 'USA',             'awayTeamName': 'Australia',            'date': '2026-06-19', 'time': '15:00', 'stadiumId': 'atlanta',       'group': 'D', 'stage': 'Group D', 'status': 'upcoming'},
-    {'id': 'm32', 'homeTeamId': 'paraguay',      'awayTeamId': 'turkey',         'homeTeamName': 'Paraguay',        'awayTeamName': 'Turkey',               'date': '2026-06-19', 'time': '21:00', 'stadiumId': 'seattle',        'group': 'D', 'stage': 'Group D', 'status': 'upcoming'},
+    # === D组 第2轮（6月19日）===
+    {'id': 'm31', 'homeTeamId': 'usa',           'awayTeamId': 'australia',      'homeTeamName': 'USA',             'awayTeamName': 'Australia',            'date': '2026-06-19', 'time': '15:00', 'stadiumId': 'seattle',        'group': 'D', 'stage': 'Group D', 'homeScore': 2, 'awayScore': 0, 'status': 'finished'},
+    {'id': 'm32', 'homeTeamId': 'turkey',        'awayTeamId': 'paraguay',       'homeTeamName': 'Turkey',          'awayTeamName': 'Paraguay',             'date': '2026-06-19', 'time': '23:00', 'stadiumId': 'san-francisco',  'group': 'D', 'stage': 'Group D', 'homeScore': 0, 'awayScore': 1, 'status': 'finished'},
 
-    # === E组第2轮（6月20日）===
-    {'id': 'm33', 'homeTeamId': 'germany',       'awayTeamId': 'ivory-coast',    'homeTeamName': 'Germany',         'awayTeamName': 'Ivory Coast',         'date': '2026-06-20', 'time': '13:00', 'stadiumId': 'dallas',         'group': 'E', 'stage': 'Group E', 'status': 'upcoming'},
-    {'id': 'm34', 'homeTeamId': 'curacao',       'awayTeamId': 'ecuador',        'homeTeamName': 'Curacao',         'awayTeamName': 'Ecuador',              'date': '2026-06-20', 'time': '19:00', 'stadiumId': 'houston',         'group': 'E', 'stage': 'Group E', 'status': 'upcoming'},
+    # === E组 第2轮（6月20日）===
+    {'id': 'm33', 'homeTeamId': 'germany',       'awayTeamId': 'ivory-coast',    'homeTeamName': 'Germany',         'awayTeamName': 'Ivory Coast',         'date': '2026-06-20', 'time': '16:00', 'stadiumId': 'toronto',        'group': 'E', 'stage': 'Group E', 'homeScore': 2, 'awayScore': 1, 'status': 'finished'},
+    {'id': 'm34', 'homeTeamId': 'ecuador',       'awayTeamId': 'curacao',        'homeTeamName': 'Ecuador',         'awayTeamName': 'Curacao',              'date': '2026-06-20', 'time': '20:00', 'stadiumId': 'kansas-city',    'group': 'E', 'stage': 'Group E', 'homeScore': 0, 'awayScore': 0, 'status': 'finished'},
 
-    # === F组第2轮（6月20日）===
-    {'id': 'm35', 'homeTeamId': 'netherlands',   'awayTeamId': 'sweden',         'homeTeamName': 'Netherlands',    'awayTeamName': 'Sweden',               'date': '2026-06-20', 'time': '16:00', 'stadiumId': 'new-york',       'group': 'F', 'stage': 'Group F', 'status': 'upcoming'},
-    {'id': 'm36', 'homeTeamId': 'japan',         'awayTeamId': 'tunisia',        'homeTeamName': 'Japan',           'awayTeamName': 'Tunisia',              'date': '2026-06-20', 'time': '22:00', 'stadiumId': 'boston',         'group': 'F', 'stage': 'Group F', 'status': 'upcoming'},
+    # === F组 第2轮（6月20-21日）===
+    {'id': 'm35', 'homeTeamId': 'netherlands',   'awayTeamId': 'sweden',         'homeTeamName': 'Netherlands',    'awayTeamName': 'Sweden',               'date': '2026-06-20', 'time': '13:00', 'stadiumId': 'houston',        'group': 'F', 'stage': 'Group F', 'homeScore': 5, 'awayScore': 1, 'status': 'finished'},
+    {'id': 'm36', 'homeTeamId': 'tunisia',       'awayTeamId': 'japan',          'homeTeamName': 'Tunisia',         'awayTeamName': 'Japan',                'date': '2026-06-21', 'time': '00:00', 'stadiumId': 'monterrey',      'group': 'F', 'stage': 'Group F', 'homeScore': 0, 'awayScore': 4, 'status': 'finished'},
+
+    # === G组 第2轮（6月21日）===
+    {'id': 'm37', 'homeTeamId': 'belgium',       'awayTeamId': 'iran',           'homeTeamName': 'Belgium',         'awayTeamName': 'Iran',                 'date': '2026-06-21', 'time': '15:00', 'stadiumId': 'los-angeles',    'group': 'G', 'stage': 'Group G', 'homeScore': 0, 'awayScore': 0, 'status': 'finished'},
+    {'id': 'm38', 'homeTeamId': 'new-zealand',   'awayTeamId': 'egypt',          'homeTeamName': 'New Zealand',     'awayTeamName': 'Egypt',                'date': '2026-06-21', 'time': '21:00', 'stadiumId': 'vancouver',      'group': 'G', 'stage': 'Group G', 'homeScore': 1, 'awayScore': 3, 'status': 'finished'},
+
+    # === H组 第2轮（6月21日）===
+    {'id': 'm39', 'homeTeamId': 'spain',         'awayTeamId': 'saudi-arabia',   'homeTeamName': 'Spain',           'awayTeamName': 'Saudi Arabia',         'date': '2026-06-21', 'time': '12:00', 'stadiumId': 'atlanta',        'group': 'H', 'stage': 'Group H', 'homeScore': 4, 'awayScore': 0, 'status': 'finished'},
+    {'id': 'm40', 'homeTeamId': 'uruguay',       'awayTeamId': 'cape-verde',     'homeTeamName': 'Uruguay',         'awayTeamName': 'Cape Verde',           'date': '2026-06-21', 'time': '18:00', 'stadiumId': 'miami',          'group': 'H', 'stage': 'Group H', 'homeScore': 2, 'awayScore': 2, 'status': 'finished'},
+
+    # === I组 第2轮（6月22日）===
+    {'id': 'm41', 'homeTeamId': 'france',        'awayTeamId': 'iraq',           'homeTeamName': 'France',          'awayTeamName': 'Iraq',                 'date': '2026-06-22', 'time': '17:00', 'stadiumId': 'philadelphia',   'group': 'I', 'stage': 'Group I', 'homeScore': 3, 'awayScore': 0, 'status': 'finished'},
+    {'id': 'm42', 'homeTeamId': 'norway',        'awayTeamId': 'senegal',        'homeTeamName': 'Norway',          'awayTeamName': 'Senegal',              'date': '2026-06-22', 'time': '20:00', 'stadiumId': 'new-york',       'group': 'I', 'stage': 'Group I', 'homeScore': 3, 'awayScore': 2, 'status': 'finished'},
+
+    # === J组 第2轮（6月22日）===
+    {'id': 'm43', 'homeTeamId': 'argentina',     'awayTeamId': 'austria',        'homeTeamName': 'Argentina',       'awayTeamName': 'Austria',              'date': '2026-06-22', 'time': '13:00', 'stadiumId': 'dallas',         'group': 'J', 'stage': 'Group J', 'homeScore': 2, 'awayScore': 0, 'status': 'finished'},
+    {'id': 'm44', 'homeTeamId': 'jordan',        'awayTeamId': 'algeria',        'homeTeamName': 'Jordan',          'awayTeamName': 'Algeria',              'date': '2026-06-22', 'time': '23:00', 'stadiumId': 'san-francisco',  'group': 'J', 'stage': 'Group J', 'homeScore': 1, 'awayScore': 2, 'status': 'finished'},
+
+    # === K组 第2轮（6月23日）===
+    {'id': 'm45', 'homeTeamId': 'portugal',      'awayTeamId': 'uzbekistan',     'homeTeamName': 'Portugal',        'awayTeamName': 'Uzbekistan',           'date': '2026-06-23', 'time': '13:00', 'stadiumId': 'houston',        'group': 'K', 'stage': 'Group K', 'homeScore': 5, 'awayScore': 0, 'status': 'finished'},
+    {'id': 'm46', 'homeTeamId': 'colombia',      'awayTeamId': 'dr-congo',       'homeTeamName': 'Colombia',        'awayTeamName': 'DR Congo',             'date': '2026-06-23', 'time': '22:00', 'stadiumId': 'guadalajara',    'group': 'K', 'stage': 'Group K', 'homeScore': 1, 'awayScore': 0, 'status': 'finished'},
+
+    # === L组 第2轮（6月23日）===
+    {'id': 'm47', 'homeTeamId': 'england',       'awayTeamId': 'ghana',          'homeTeamName': 'England',         'awayTeamName': 'Ghana',                'date': '2026-06-23', 'time': '16:00', 'stadiumId': 'boston',         'group': 'L', 'stage': 'Group L', 'homeScore': 0, 'awayScore': 0, 'status': 'finished'},
+    {'id': 'm48', 'homeTeamId': 'panama',        'awayTeamId': 'croatia',        'homeTeamName': 'Panama',          'awayTeamName': 'Croatia',              'date': '2026-06-23', 'time': '19:00', 'stadiumId': 'toronto',        'group': 'L', 'stage': 'Group L', 'homeScore': 0, 'awayScore': 1, 'status': 'finished'},
+
+    # === A组 第3轮（6月24-25日）✅ 完赛 ===
+    {'id': 'm49', 'homeTeamId': 'scotland',      'awayTeamId': 'brazil',         'homeTeamName': 'Scotland',        'awayTeamName': 'Brazil',               'date': '2026-06-24', 'time': '18:00', 'stadiumId': 'miami',          'group': 'C', 'stage': 'Group C', 'homeScore': 0, 'awayScore': 3, 'status': 'finished'},
+    {'id': 'm50', 'homeTeamId': 'morocco',       'awayTeamId': 'haiti',          'homeTeamName': 'Morocco',         'awayTeamName': 'Haiti',                'date': '2026-06-24', 'time': '18:00', 'stadiumId': 'atlanta',        'group': 'C', 'stage': 'Group C', 'homeScore': 4, 'awayScore': 2, 'status': 'finished'},
+    {'id': 'm51', 'homeTeamId': 'switzerland',   'awayTeamId': 'canada',         'homeTeamName': 'Switzerland',    'awayTeamName': 'Canada',               'date': '2026-06-24', 'time': '15:00', 'stadiumId': 'vancouver',      'group': 'B', 'stage': 'Group B', 'homeScore': 2, 'awayScore': 1, 'status': 'finished'},
+    {'id': 'm52', 'homeTeamId': 'bosnia',        'awayTeamId': 'qatar',          'homeTeamName': 'Bosnia-Herzegovina', 'awayTeamName': 'Qatar',             'date': '2026-06-24', 'time': '15:00', 'stadiumId': 'seattle',        'group': 'B', 'stage': 'Group B', 'homeScore': 3, 'awayScore': 1, 'status': 'finished'},
+    {'id': 'm53', 'homeTeamId': 'czech',         'awayTeamId': 'mexico',         'homeTeamName': 'Czech Republic',  'awayTeamName': 'Mexico',               'date': '2026-06-25', 'time': '01:00', 'stadiumId': 'estadio-azteca', 'group': 'A', 'stage': 'Group A', 'homeScore': 0, 'awayScore': 3, 'status': 'finished'},
+    {'id': 'm54', 'homeTeamId': 'south-africa',  'awayTeamId': 'south-korea',    'homeTeamName': 'South Africa',    'awayTeamName': 'South Korea',         'date': '2026-06-25', 'time': '01:00', 'stadiumId': 'monterrey',      'group': 'A', 'stage': 'Group A', 'homeScore': 1, 'awayScore': 0, 'status': 'finished'},
+
+    # === D组 第3轮（6月26日）⏳ 未开赛 ===
+    {'id': 'm55', 'homeTeamId': 'usa',           'awayTeamId': 'turkey',         'homeTeamName': 'USA',             'awayTeamName': 'Turkey',               'date': '2026-06-26', 'time': '03:00', 'stadiumId': 'seattle',        'group': 'D', 'stage': 'Group D', 'status': 'upcoming'},
+    {'id': 'm56', 'homeTeamId': 'paraguay',      'awayTeamId': 'australia',      'homeTeamName': 'Paraguay',        'awayTeamName': 'Australia',            'date': '2026-06-26', 'time': '03:00', 'stadiumId': 'san-francisco',  'group': 'D', 'stage': 'Group D', 'status': 'upcoming'},
+
+    # === E组 第3轮（6月25日）⏳ 未开赛 ===
+    {'id': 'm57', 'homeTeamId': 'germany',       'awayTeamId': 'ecuador',        'homeTeamName': 'Germany',         'awayTeamName': 'Ecuador',              'date': '2026-06-25', 'time': '21:00', 'stadiumId': 'houston',        'group': 'E', 'stage': 'Group E', 'status': 'upcoming'},
+    {'id': 'm58', 'homeTeamId': 'curacao',       'awayTeamId': 'ivory-coast',    'homeTeamName': 'Curacao',         'awayTeamName': 'Ivory Coast',         'date': '2026-06-25', 'time': '21:00', 'stadiumId': 'kansas-city',    'group': 'E', 'stage': 'Group E', 'status': 'upcoming'},
+
+    # === F组 第3轮（6月26日）⏳ 未开赛 ===
+    {'id': 'm59', 'homeTeamId': 'japan',         'awayTeamId': 'sweden',         'homeTeamName': 'Japan',           'awayTeamName': 'Sweden',               'date': '2026-06-26', 'time': '00:00', 'stadiumId': 'boston',         'group': 'F', 'stage': 'Group F', 'status': 'upcoming'},
+    {'id': 'm60', 'homeTeamId': 'netherlands',   'awayTeamId': 'tunisia',        'homeTeamName': 'Netherlands',    'awayTeamName': 'Tunisia',              'date': '2026-06-26', 'time': '00:00', 'stadiumId': 'houston',        'group': 'F', 'stage': 'Group F', 'status': 'upcoming'},
+
+    # === I组 第3轮（6月26日）⏳ 未开赛 ===
+    {'id': 'm61', 'homeTeamId': 'france',        'awayTeamId': 'norway',         'homeTeamName': 'France',          'awayTeamName': 'Norway',               'date': '2026-06-26', 'time': '20:00', 'stadiumId': 'new-york',       'group': 'I', 'stage': 'Group I', 'status': 'upcoming'},
+    {'id': 'm62', 'homeTeamId': 'senegal',       'awayTeamId': 'iraq',           'homeTeamName': 'Senegal',         'awayTeamName': 'Iraq',                 'date': '2026-06-26', 'time': '20:00', 'stadiumId': 'philadelphia',   'group': 'I', 'stage': 'Group I', 'status': 'upcoming'},
+
+    # === G组 第3轮（6月27日）⏳ 未开赛 ===
+    {'id': 'm63', 'homeTeamId': 'egypt',         'awayTeamId': 'iran',           'homeTeamName': 'Egypt',           'awayTeamName': 'Iran',                 'date': '2026-06-27', 'time': '15:00', 'stadiumId': 'seattle',        'group': 'G', 'stage': 'Group G', 'status': 'upcoming'},
+    {'id': 'm64', 'homeTeamId': 'new-zealand',   'awayTeamId': 'belgium',        'homeTeamName': 'New Zealand',     'awayTeamName': 'Belgium',              'date': '2026-06-27', 'time': '15:00', 'stadiumId': 'vancouver',      'group': 'G', 'stage': 'Group G', 'status': 'upcoming'},
+
+    # === H组 第3轮（6月27日）⏳ 未开赛 ===
+    {'id': 'm65', 'homeTeamId': 'cape-verde',    'awayTeamId': 'saudi-arabia',   'homeTeamName': 'Cape Verde',      'awayTeamName': 'Saudi Arabia',         'date': '2026-06-27', 'time': '18:00', 'stadiumId': 'miami',          'group': 'H', 'stage': 'Group H', 'status': 'upcoming'},
+    {'id': 'm66', 'homeTeamId': 'uruguay',       'awayTeamId': 'spain',          'homeTeamName': 'Uruguay',         'awayTeamName': 'Spain',                'date': '2026-06-27', 'time': '18:00', 'stadiumId': 'atlanta',        'group': 'H', 'stage': 'Group H', 'status': 'upcoming'},
+
+    # === J组 第3轮（6月27日）⏳ 未开赛 ===
+    {'id': 'm67', 'homeTeamId': 'algeria',       'awayTeamId': 'austria',        'homeTeamName': 'Algeria',         'awayTeamName': 'Austria',              'date': '2026-06-27', 'time': '21:00', 'stadiumId': 'san-francisco',  'group': 'J', 'stage': 'Group J', 'status': 'upcoming'},
+    {'id': 'm68', 'homeTeamId': 'argentina',     'awayTeamId': 'jordan',         'homeTeamName': 'Argentina',       'awayTeamName': 'Jordan',               'date': '2026-06-27', 'time': '21:00', 'stadiumId': 'dallas',         'group': 'J', 'stage': 'Group J', 'status': 'upcoming'},
+
+    # === K组 第3轮（6月27日）⏳ 未开赛 ===
+    {'id': 'm69', 'homeTeamId': 'colombia',      'awayTeamId': 'portugal',       'homeTeamName': 'Colombia',        'awayTeamName': 'Portugal',             'date': '2026-06-27', 'time': '00:00', 'stadiumId': 'houston',        'group': 'K', 'stage': 'Group K', 'status': 'upcoming'},
+    {'id': 'm70', 'homeTeamId': 'dr-congo',      'awayTeamId': 'uzbekistan',     'homeTeamName': 'DR Congo',        'awayTeamName': 'Uzbekistan',           'date': '2026-06-27', 'time': '00:00', 'stadiumId': 'guadalajara',    'group': 'K', 'stage': 'Group K', 'status': 'upcoming'},
+
+    # === L组 第3轮（6月27日）⏳ 未开赛 ===
+    {'id': 'm71', 'homeTeamId': 'england',       'awayTeamId': 'panama',         'homeTeamName': 'England',         'awayTeamName': 'Panama',               'date': '2026-06-27', 'time': '03:00', 'stadiumId': 'boston',         'group': 'L', 'stage': 'Group L', 'status': 'upcoming'},
+    {'id': 'm72', 'homeTeamId': 'croatia',       'awayTeamId': 'ghana',          'homeTeamName': 'Croatia',         'awayTeamName': 'Ghana',                'date': '2026-06-27', 'time': '03:00', 'stadiumId': 'toronto',        'group': 'L', 'stage': 'Group L', 'status': 'upcoming'},
 
     # === 淘汰赛 ===
-    {'id': 'r16-1', 'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': '1A', 'awayTeamName': '2B', 'date': '2026-06-28', 'time': '15:00', 'stadiumId': 'estadio-azteca', 'stage': 'Round of 16', 'status': 'upcoming'},
-    {'id': 'r16-2', 'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': '1B', 'awayTeamName': '2A', 'date': '2026-06-28', 'time': '22:00', 'stadiumId': 'toronto',        'stage': 'Round of 16', 'status': 'upcoming'},
+    {'id': 'r32-1',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': '1A', 'awayTeamName': '2B', 'date': '2026-06-28', 'time': '12:00', 'stadiumId': 'estadio-azteca', 'stage': 'Round of 32', 'status': 'upcoming'},
+    {'id': 'r32-2',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': '1C', 'awayTeamName': '2D', 'date': '2026-06-28', 'time': '15:00', 'stadiumId': 'los-angeles', 'stage': 'Round of 32', 'status': 'upcoming'},
+    {'id': 'r32-3',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': '1B', 'awayTeamName': '2A', 'date': '2026-06-28', 'time': '18:00', 'stadiumId': 'toronto', 'stage': 'Round of 32', 'status': 'upcoming'},
+    {'id': 'r32-4',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': '1D', 'awayTeamName': '2C', 'date': '2026-06-28', 'time': '21:00', 'stadiumId': 'seattle', 'stage': 'Round of 32', 'status': 'upcoming'},
+    {'id': 'r32-5',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': '1E', 'awayTeamName': '2F', 'date': '2026-06-29', 'time': '12:00', 'stadiumId': 'dallas', 'stage': 'Round of 32', 'status': 'upcoming'},
+    {'id': 'r32-6',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': '1G', 'awayTeamName': '2H', 'date': '2026-06-29', 'time': '15:00', 'stadiumId': 'vancouver', 'stage': 'Round of 32', 'status': 'upcoming'},
+    {'id': 'r32-7',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': '1F', 'awayTeamName': '2E', 'date': '2026-06-29', 'time': '18:00', 'stadiumId': 'houston', 'stage': 'Round of 32', 'status': 'upcoming'},
+    {'id': 'r32-8',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': '1H', 'awayTeamName': '2G', 'date': '2026-06-29', 'time': '21:00', 'stadiumId': 'miami', 'stage': 'Round of 32', 'status': 'upcoming'},
+    {'id': 'r32-9',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': '1I', 'awayTeamName': '2J', 'date': '2026-06-29', 'time': '12:00', 'stadiumId': 'new-york', 'stage': 'Round of 32', 'status': 'upcoming'},
+    {'id': 'r32-10', 'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': '1K', 'awayTeamName': '2L', 'date': '2026-06-29', 'time': '15:00', 'stadiumId': 'atlanta', 'stage': 'Round of 32', 'status': 'upcoming'},
+    {'id': 'r32-11', 'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': '1J', 'awayTeamName': '2I', 'date': '2026-06-29', 'time': '18:00', 'stadiumId': 'boston', 'stage': 'Round of 32', 'status': 'upcoming'},
+    {'id': 'r32-12', 'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': '1L', 'awayTeamName': '2K', 'date': '2026-06-29', 'time': '21:00', 'stadiumId': 'kansas-city', 'stage': 'Round of 32', 'status': 'upcoming'},
+    {'id': 'r16-1',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': 'Winner R32-1', 'awayTeamName': 'Winner R32-2', 'date': '2026-07-04', 'time': '15:00', 'stadiumId': 'los-angeles', 'stage': 'Round of 16', 'status': 'upcoming'},
+    {'id': 'r16-2',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': 'Winner R32-3', 'awayTeamName': 'Winner R32-4', 'date': '2026-07-04', 'time': '18:00', 'stadiumId': 'toronto', 'stage': 'Round of 16', 'status': 'upcoming'},
+    {'id': 'r16-3',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': 'Winner R32-5', 'awayTeamName': 'Winner R32-6', 'date': '2026-07-05', 'time': '15:00', 'stadiumId': 'dallas', 'stage': 'Round of 16', 'status': 'upcoming'},
+    {'id': 'r16-4',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': 'Winner R32-7', 'awayTeamName': 'Winner R32-8', 'date': '2026-07-05', 'time': '18:00', 'stadiumId': 'miami', 'stage': 'Round of 16', 'status': 'upcoming'},
+    {'id': 'r16-5',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': 'Winner R32-9', 'awayTeamName': 'Winner R32-10', 'date': '2026-07-05', 'time': '15:00', 'stadiumId': 'new-york', 'stage': 'Round of 16', 'status': 'upcoming'},
+    {'id': 'r16-6',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': 'Winner R32-11', 'awayTeamName': 'Winner R32-12', 'date': '2026-07-05', 'time': '18:00', 'stadiumId': 'boston', 'stage': 'Round of 16', 'status': 'upcoming'},
     {'id': 'qf-1',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': 'Winner R16-1', 'awayTeamName': 'Winner R16-2', 'date': '2026-07-10', 'time': '15:00', 'stadiumId': 'los-angeles', 'stage': 'Quarter-final', 'status': 'upcoming'},
-    {'id': 'sf-1',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': 'QF Winner 1', 'awayTeamName': 'QF Winner 2', 'date': '2026-07-15', 'time': '15:00', 'stadiumId': 'dallas',  'stage': 'Semi-final', 'status': 'upcoming'},
-    {'id': 'sf-2',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': 'QF Winner 3', 'awayTeamName': 'QF Winner 4', 'date': '2026-07-16', 'time': '15:00', 'stadiumId': 'atlanta', 'stage': 'Semi-final', 'status': 'upcoming'},
+    {'id': 'qf-2',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': 'Winner R16-3', 'awayTeamName': 'Winner R16-4', 'date': '2026-07-11', 'time': '15:00', 'stadiumId': 'dallas', 'stage': 'Quarter-final', 'status': 'upcoming'},
+    {'id': 'qf-3',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': 'Winner R16-5', 'awayTeamName': 'Winner R16-6', 'date': '2026-07-11', 'time': '18:00', 'stadiumId': 'atlanta', 'stage': 'Quarter-final', 'status': 'upcoming'},
+    {'id': 'sf-1',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': 'Winner QF-1', 'awayTeamName': 'Winner QF-2', 'date': '2026-07-15', 'time': '15:00', 'stadiumId': 'dallas',  'stage': 'Semi-final', 'status': 'upcoming'},
+    {'id': 'sf-2',  'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': 'Winner QF-3', 'awayTeamName': 'Winner R16-WC', 'date': '2026-07-16', 'time': '15:00', 'stadiumId': 'atlanta', 'stage': 'Semi-final', 'status': 'upcoming'},
     {'id': 'third', 'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': 'SF Loser 1',  'awayTeamName': 'SF Loser 2',  'date': '2026-07-19', 'time': '15:00', 'stadiumId': 'miami',    'stage': 'Third-place', 'status': 'upcoming'},
     {'id': 'final', 'homeTeamId': '', 'awayTeamId': '', 'homeTeamName': 'SF Winner 1', 'awayTeamName': 'SF Winner 2', 'date': '2026-07-20', 'time': '15:00', 'stadiumId': 'new-york', 'stage': 'Final',       'status': 'upcoming'},
 ]

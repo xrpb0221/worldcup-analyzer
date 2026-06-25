@@ -13,7 +13,8 @@ PASSWORD = 'Py^R~Ad/9L@%56c'
 
 LOCAL_SRC = os.path.join(os.path.dirname(__file__), 'src')
 LOCAL_PUBLIC = os.path.join(os.path.dirname(__file__), 'public')
-LOCAL_ROOT_FILES = ['package.json', 'tsconfig.json', 'tsconfig.app.json', 'vite.config.ts', 'build.js', 'index.html']
+LOCAL_SERVER = os.path.join(os.path.dirname(__file__), 'server')
+LOCAL_ROOT_FILES = ['package.json', 'tsconfig.json', 'tsconfig.app.json', 'tsconfig.node.json', 'vite.config.ts', 'build.js', 'index.html', 'tailwind.config.js', 'postcss.config.js', 'components.json']
 
 REMOTE_APP = '/opt/worldcup'
 REMOTE_WEBROOT = '/usr/share/nginx/html'
@@ -92,20 +93,25 @@ def main():
                 sftp.put(local_path, f'{REMOTE_APP}/{f}')
 
         # Upload src
-        print('\n[4/6] Uploading source code...')
+        print('\n[4/7] Uploading source code...')
         upload_dir(sftp, LOCAL_SRC, f'{REMOTE_APP}/src')
         if os.path.exists(LOCAL_PUBLIC):
             upload_dir(sftp, LOCAL_PUBLIC, f'{REMOTE_APP}/public')
 
+        # Upload server scripts
+        print('\n[5/7] Uploading server scripts...')
+        if os.path.exists(LOCAL_SERVER):
+            upload_dir(sftp, LOCAL_SERVER, f'{REMOTE_APP}/server')
+
         sftp.close()
 
         # 在服务器上构建
-        print('\n[5/6] Building on server...')
+        print('\n[6/7] Building on server...')
         run_cmd(client, f'cd {REMOTE_APP} && npm install --legacy-peer-deps 2>&1 | tail -5', 'npm install')
         run_cmd(client, f'cd {REMOTE_APP} && rm -rf dist dist-new && node build.js 2>&1', 'Vite build')
 
         # Deploy to Nginx
-        print('\n[6/6] Deploying to Nginx...')
+        print('\n[7/7] Deploying to Nginx...')
         run_cmd(client, f'rm -rf {REMOTE_WEBROOT}/assets')
         # 检查 dist-new 或 dist
         ec, out, _ = run_cmd(client, f'ls {REMOTE_APP}/dist-new/index.html 2>/dev/null && echo "dist-new" || (ls {REMOTE_APP}/dist/index.html 2>/dev/null && echo "dist" || echo "none")')
@@ -116,6 +122,10 @@ def main():
             print('  ERROR: No build output found!')
             sys.exit(1)
         run_cmd(client, 'nginx -t && systemctl reload nginx', 'Reload Nginx')
+
+        # 运行数据更新脚本，刷新API数据
+        print('\n[DATA] Running data_updater.py to refresh API data...')
+        run_cmd(client, f'cd {REMOTE_APP}/server && python3 data_updater.py 2>&1', 'Data update', timeout=120)
 
         # Verify
         print('\nOK - Verifying...')
