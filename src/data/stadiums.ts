@@ -72,35 +72,96 @@ export const matches: Match[] = [
   { id: 'm24', homeTeamId: 'ghana', awayTeamId: 'panama', homeTeamName: '加纳', awayTeamName: '巴拿马', date: '2026-06-17', time: '07:00', stadiumId: 'vancouver', group: 'L', stage: '小组赛L组', homeScore: 1, awayScore: 0, status: 'finished', scorers: ['耶伦基(95\')'] },
 
   // === A组第2轮（6月18日）===
-  { id: 'm25', homeTeamId: 'mexico', awayTeamId: 'south-korea', homeTeamName: '墨西哥', awayTeamName: '韩国', date: '2026-06-18', time: '15:00', stadiumId: 'estadio-azteca', group: 'A', stage: '小组赛A组', status: 'upcoming' },
-  { id: 'm26', homeTeamId: 'czech', awayTeamId: 'south-africa', homeTeamName: '捷克', awayTeamName: '南非', date: '2026-06-18', time: '22:00', stadiumId: 'monterrey', group: 'A', stage: '小组赛A组', status: 'upcoming' },
+  { id: 'm25', homeTeamId: 'mexico', awayTeamId: 'south-korea', homeTeamName: '墨西哥', awayTeamName: '韩国', date: '2026-06-18', time: '15:00', stadiumId: 'estadio-azteca', group: 'A', stage: '小组赛A组', homeScore: 2, awayScore: 0, status: 'finished' },
+  { id: 'm26', homeTeamId: 'czech', awayTeamId: 'south-africa', homeTeamName: '捷克', awayTeamName: '南非', date: '2026-06-18', time: '22:00', stadiumId: 'monterrey', group: 'A', stage: '小组赛A组', homeScore: 0, awayScore: 1, status: 'finished' },
 
   // === B组第2轮（6月18日）===
-  { id: 'm27', homeTeamId: 'canada', awayTeamId: 'switzerland', homeTeamName: '加拿大', awayTeamName: '瑞士', date: '2026-06-18', time: '15:00', stadiumId: 'vancouver', group: 'B', stage: '小组赛B组', status: 'upcoming' },
-  { id: 'm28', homeTeamId: 'bosnia', awayTeamId: 'qatar', homeTeamName: '波黑', awayTeamName: '卡塔尔', date: '2026-06-18', time: '22:00', stadiumId: 'toronto', group: 'B', stage: '小组赛B组', status: 'upcoming' },
+  { id: 'm27', homeTeamId: 'canada', awayTeamId: 'switzerland', homeTeamName: '加拿大', awayTeamName: '瑞士', date: '2026-06-18', time: '15:00', stadiumId: 'vancouver', group: 'B', stage: '小组赛B组', homeScore: 0, awayScore: 2, status: 'finished' },
+  { id: 'm28', homeTeamId: 'bosnia', awayTeamId: 'qatar', homeTeamName: '波黑', awayTeamName: '卡塔尔', date: '2026-06-18', time: '22:00', stadiumId: 'toronto', group: 'B', stage: '小组赛B组', homeScore: 3, awayScore: 1, status: 'finished' },
 
   // === C组第2轮（6月19日）===
-  { id: 'm29', homeTeamId: 'brazil', awayTeamId: 'scotland', homeTeamName: '巴西', awayTeamName: '苏格兰', date: '2026-06-19', time: '15:00', stadiumId: 'los-angeles', group: 'C', stage: '小组赛C组', status: 'upcoming' },
-  { id: 'm30', homeTeamId: 'morocco', awayTeamId: 'haiti', homeTeamName: '摩洛哥', awayTeamName: '海地', date: '2026-06-19', time: '21:00', stadiumId: 'miami', group: 'C', stage: '小组赛C组', status: 'upcoming' },
+  { id: 'm29', homeTeamId: 'brazil', awayTeamId: 'scotland', homeTeamName: '巴西', awayTeamName: '苏格兰', date: '2026-06-19', time: '15:00', stadiumId: 'los-angeles', group: 'C', stage: '小组赛C组', homeScore: 3, awayScore: 0, status: 'finished' },
+  { id: 'm30', homeTeamId: 'morocco', awayTeamId: 'haiti', homeTeamName: '摩洛哥', awayTeamName: '海地', date: '2026-06-19', time: '21:00', stadiumId: 'miami', group: 'C', stage: '小组赛C组', homeScore: 2, awayScore: 1, status: 'finished' },
 
   // === D组第2轮（6月19日）===
-  { id: 'm31', homeTeamId: 'usa', awayTeamId: 'australia', homeTeamName: '美国', awayTeamName: '澳大利亚', date: '2026-06-19', time: '15:00', stadiumId: 'atlanta', group: 'D', stage: '小组赛D组', status: 'upcoming' },
-  { id: 'm32', homeTeamId: 'paraguay', awayTeamId: 'turkey', homeTeamName: '巴拉圭', awayTeamName: '土耳其', date: '2026-06-19', time: '21:00', stadiumId: 'seattle', group: 'D', stage: '小组赛D组', status: 'upcoming' },
+  { id: 'm31', homeTeamId: 'usa', awayTeamId: 'australia', homeTeamName: '美国', awayTeamName: '澳大利亚', date: '2026-06-19', time: '15:00', stadiumId: 'atlanta', group: 'D', stage: '小组赛D组', homeScore: 2, awayScore: 0, status: 'finished' },
+  { id: 'm32', homeTeamId: 'paraguay', awayTeamId: 'turkey', homeTeamName: '巴拉圭', awayTeamName: '土耳其', date: '2026-06-19', time: '21:00', stadiumId: 'seattle', group: 'D', stage: '小组赛D组', homeScore: 2, awayScore: 1, status: 'finished' },
 
   // === E组第2轮（6月20日）===
-  { id: 'm33', homeTeamId: 'germany', awayTeamId: 'ivory-coast', homeTeamName: '德国', awayTeamName: '科特迪瓦', date: '2026-06-20', time: '13:00', stadiumId: 'dallas', group: 'E', stage: '小组赛E组', status: 'upcoming' },
-  { id: 'm34', homeTeamId: 'curacao', awayTeamId: 'ecuador', homeTeamName: '库拉索', awayTeamName: '厄瓜多尔', date: '2026-06-20', time: '19:00', stadiumId: 'houston', group: 'E', stage: '小组赛E组', status: 'upcoming' },
+  { id: 'm33', homeTeamId: 'germany', awayTeamId: 'ivory-coast', homeTeamName: '德国', awayTeamName: '科特迪瓦', date: '2026-06-20', time: '13:00', stadiumId: 'dallas', group: 'E', stage: '小组赛E组', homeScore: 2, awayScore: 1, status: 'finished' },
+  { id: 'm34', homeTeamId: 'curacao', awayTeamId: 'ecuador', homeTeamName: '库拉索', awayTeamName: '厄瓜多尔', date: '2026-06-20', time: '19:00', stadiumId: 'houston', group: 'E', stage: '小组赛E组', homeScore: 0, awayScore: 0, status: 'finished' },
 
   // === F组第2轮（6月20日）===
-  { id: 'm35', homeTeamId: 'netherlands', awayTeamId: 'sweden', homeTeamName: '荷兰', awayTeamName: '瑞典', date: '2026-06-20', time: '16:00', stadiumId: 'new-york', group: 'F', stage: '小组赛F组', status: 'upcoming' },
-  { id: 'm36', homeTeamId: 'japan', awayTeamId: 'tunisia', homeTeamName: '日本', awayTeamName: '突尼斯', date: '2026-06-20', time: '22:00', stadiumId: 'boston', group: 'F', stage: '小组赛F组', status: 'upcoming' },
+  { id: 'm35', homeTeamId: 'netherlands', awayTeamId: 'sweden', homeTeamName: '荷兰', awayTeamName: '瑞典', date: '2026-06-20', time: '16:00', stadiumId: 'new-york', group: 'F', stage: '小组赛F组', homeScore: 5, awayScore: 1, status: 'finished' },
+  { id: 'm36', homeTeamId: 'japan', awayTeamId: 'tunisia', homeTeamName: '日本', awayTeamName: '突尼斯', date: '2026-06-20', time: '22:00', stadiumId: 'boston', group: 'F', stage: '小组赛F组', homeScore: 4, awayScore: 0, status: 'finished' },
 
-  // === 淘汰赛 ===
-  { id: 'r16-1', homeTeamId: '', awayTeamId: '', homeTeamName: '1A', awayTeamName: '2B', date: '2026-06-28', time: '15:00', stadiumId: 'estadio-azteca', stage: '1/16决赛', status: 'upcoming' },
-  { id: 'r16-2', homeTeamId: '', awayTeamId: '', homeTeamName: '1B', awayTeamName: '2A', date: '2026-06-28', time: '22:00', stadiumId: 'toronto', stage: '1/16决赛', status: 'upcoming' },
-  { id: 'qf-1', homeTeamId: '', awayTeamId: '', homeTeamName: '胜者1', awayTeamName: '胜者2', date: '2026-07-10', time: '15:00', stadiumId: 'los-angeles', stage: '1/4决赛', status: 'upcoming' },
-  { id: 'sf-1', homeTeamId: '', awayTeamId: '', homeTeamName: '1/4决赛胜者', awayTeamName: '1/4决赛胜者', date: '2026-07-15', time: '15:00', stadiumId: 'dallas', stage: '半决赛', status: 'upcoming' },
-  { id: 'sf-2', homeTeamId: '', awayTeamId: '', homeTeamName: '1/4决赛胜者', awayTeamName: '1/4决赛胜者', date: '2026-07-16', time: '15:00', stadiumId: 'atlanta', stage: '半决赛', status: 'upcoming' },
-  { id: 'third', homeTeamId: '', awayTeamId: '', homeTeamName: '半决赛负者', awayTeamName: '半决赛负者', date: '2026-07-19', time: '15:00', stadiumId: 'miami', stage: '季军战', status: 'upcoming' },
-  { id: 'final', homeTeamId: '', awayTeamId: '', homeTeamName: '半决赛胜者', awayTeamName: '半决赛胜者', date: '2026-07-20', time: '15:00', stadiumId: 'new-york', stage: '决赛', status: 'upcoming' },
+  // === G组第2轮（6月21日）===
+  { id: 'm37', homeTeamId: 'belgium', awayTeamId: 'iran', homeTeamName: '比利时', awayTeamName: '伊朗', date: '2026-06-21', time: '03:00', stadiumId: 'miami', group: 'G', stage: '小组赛G组', homeScore: 0, awayScore: 0, status: 'finished' },
+  { id: 'm38', homeTeamId: 'egypt', awayTeamId: 'new-zealand', homeTeamName: '埃及', awayTeamName: '新西兰', date: '2026-06-21', time: '09:00', stadiumId: 'seattle', group: 'G', stage: '小组赛G组', homeScore: 3, awayScore: 0, status: 'finished' },
+
+  // === H组第2轮（6月21日）===
+  { id: 'm39', homeTeamId: 'spain', awayTeamId: 'saudi-arabia', homeTeamName: '西班牙', awayTeamName: '沙特阿拉伯', date: '2026-06-21', time: '00:00', stadiumId: 'philadelphia', group: 'H', stage: '小组赛H组', homeScore: 4, awayScore: 0, status: 'finished' },
+  { id: 'm40', homeTeamId: 'cape-verde', awayTeamId: 'uruguay', homeTeamName: '佛得角', awayTeamName: '乌拉圭', date: '2026-06-21', time: '06:00', stadiumId: 'houston', group: 'H', stage: '小组赛H组', homeScore: 2, awayScore: 2, status: 'finished' },
+
+  // === I组第2轮（6月22日）===
+  { id: 'm41', homeTeamId: 'france', awayTeamId: 'norway', homeTeamName: '法国', awayTeamName: '挪威', date: '2026-06-22', time: '15:00', stadiumId: 'los-angeles', group: 'I', stage: '小组赛I组', homeScore: 3, awayScore: 0, status: 'finished' },
+  { id: 'm42', homeTeamId: 'senegal', awayTeamId: 'iraq', homeTeamName: '塞内加尔', awayTeamName: '伊拉克', date: '2026-06-22', time: '18:00', stadiumId: 'atlanta', group: 'I', stage: '小组赛I组', homeScore: 2, awayScore: 0, status: 'finished' },
+
+  // === J组第2轮（6月22日）===
+  { id: 'm43', homeTeamId: 'argentina', awayTeamId: 'austria', homeTeamName: '阿根廷', awayTeamName: '奥地利', date: '2026-06-22', time: '09:00', stadiumId: 'dallas', group: 'J', stage: '小组赛J组', homeScore: 2, awayScore: 0, status: 'finished' },
+  { id: 'm44', homeTeamId: 'algeria', awayTeamId: 'jordan', homeTeamName: '阿尔及利亚', awayTeamName: '约旦', date: '2026-06-22', time: '12:00', stadiumId: 'san-francisco', group: 'J', stage: '小组赛J组', homeScore: 0, awayScore: 1, status: 'finished' },
+
+  // === K组第2轮（6月23日）===
+  { id: 'm45', homeTeamId: 'portugal', awayTeamId: 'colombia', homeTeamName: '葡萄牙', awayTeamName: '哥伦比亚', date: '2026-06-23', time: '01:00', stadiumId: 'new-york', group: 'K', stage: '小组赛K组', homeScore: 5, awayScore: 0, status: 'finished' },
+  { id: 'm46', homeTeamId: 'uzbekistan', awayTeamId: 'dr-congo', homeTeamName: '乌兹别克斯坦', awayTeamName: '民主刚果', date: '2026-06-23', time: '10:00', stadiumId: 'boston', group: 'K', stage: '小组赛K组', homeScore: 0, awayScore: 1, status: 'finished' },
+
+  // === L组第2轮（6月23日）===
+  { id: 'm47', homeTeamId: 'england', awayTeamId: 'ghana', homeTeamName: '英格兰', awayTeamName: '加纳', date: '2026-06-23', time: '04:00', stadiumId: 'philadelphia', group: 'L', stage: '小组赛L组', homeScore: 0, awayScore: 0, status: 'finished' },
+  { id: 'm48', homeTeamId: 'croatia', awayTeamId: 'panama', homeTeamName: '克罗地亚', awayTeamName: '巴拿马', date: '2026-06-23', time: '07:00', stadiumId: 'vancouver', group: 'L', stage: '小组赛L组', homeScore: 1, awayScore: 0, status: 'finished' },
+
+  // === D-L组第3轮（6月25-27日）===
+  { id: 'm49', homeTeamId: 'usa', awayTeamId: 'turkey', homeTeamName: '美国', awayTeamName: '土耳其', date: '2026-06-25', time: '15:00', stadiumId: 'miami', group: 'D', stage: '小组赛D组', homeScore: 2, awayScore: 3, status: 'finished' },
+  { id: 'm50', homeTeamId: 'paraguay', awayTeamId: 'australia', homeTeamName: '巴拉圭', awayTeamName: '澳大利亚', date: '2026-06-25', time: '15:00', stadiumId: 'seattle', group: 'D', stage: '小组赛D组', homeScore: 0, awayScore: 0, status: 'finished' },
+  { id: 'm51', homeTeamId: 'japan', awayTeamId: 'sweden', homeTeamName: '日本', awayTeamName: '瑞典', date: '2026-06-25', time: '18:00', stadiumId: 'boston', group: 'F', stage: '小组赛F组', homeScore: 1, awayScore: 1, status: 'finished' },
+  { id: 'm52', homeTeamId: 'tunisia', awayTeamId: 'netherlands', homeTeamName: '突尼斯', awayTeamName: '荷兰', date: '2026-06-25', time: '18:00', stadiumId: 'new-york', group: 'F', stage: '小组赛F组', homeScore: 1, awayScore: 3, status: 'finished' },
+  { id: 'm53', homeTeamId: 'curacao', awayTeamId: 'ivory-coast', homeTeamName: '库拉索', awayTeamName: '科特迪瓦', date: '2026-06-25', time: '21:00', stadiumId: 'houston', group: 'E', stage: '小组赛E组', homeScore: 0, awayScore: 2, status: 'finished' },
+  { id: 'm54', homeTeamId: 'ecuador', awayTeamId: 'germany', homeTeamName: '厄瓜多尔', awayTeamName: '德国', date: '2026-06-25', time: '21:00', stadiumId: 'dallas', group: 'E', stage: '小组赛E组', homeScore: 2, awayScore: 1, status: 'finished' },
+  { id: 'm55', homeTeamId: 'egypt', awayTeamId: 'iran', homeTeamName: '埃及', awayTeamName: '伊朗', date: '2026-06-26', time: '03:00', stadiumId: 'miami', group: 'G', stage: '小组赛G组', homeScore: 1, awayScore: 1, status: 'finished' },
+  { id: 'm56', homeTeamId: 'new-zealand', awayTeamId: 'belgium', homeTeamName: '新西兰', awayTeamName: '比利时', date: '2026-06-26', time: '03:00', stadiumId: 'seattle', group: 'G', stage: '小组赛G组', homeScore: 1, awayScore: 5, status: 'finished' },
+  { id: 'm57', homeTeamId: 'cape-verde', awayTeamId: 'saudi-arabia', homeTeamName: '佛得角', awayTeamName: '沙特阿拉伯', date: '2026-06-26', time: '06:00', stadiumId: 'philadelphia', group: 'H', stage: '小组赛H组', homeScore: 0, awayScore: 0, status: 'finished' },
+  { id: 'm58', homeTeamId: 'uruguay', awayTeamId: 'spain', homeTeamName: '乌拉圭', awayTeamName: '西班牙', date: '2026-06-26', time: '06:00', stadiumId: 'boston', group: 'H', stage: '小组赛H组', homeScore: 0, awayScore: 1, status: 'finished' },
+  { id: 'm59', homeTeamId: 'norway', awayTeamId: 'france', homeTeamName: '挪威', awayTeamName: '法国', date: '2026-06-26', time: '09:00', stadiumId: 'los-angeles', group: 'I', stage: '小组赛I组', homeScore: 1, awayScore: 4, status: 'finished' },
+  { id: 'm60', homeTeamId: 'senegal', awayTeamId: 'iraq', homeTeamName: '塞内加尔', awayTeamName: '伊拉克', date: '2026-06-26', time: '09:00', stadiumId: 'atlanta', group: 'I', stage: '小组赛I组', homeScore: 5, awayScore: 0, status: 'finished' },
+  { id: 'm61', homeTeamId: 'algeria', awayTeamId: 'austria', homeTeamName: '阿尔及利亚', awayTeamName: '奥地利', date: '2026-06-27', time: '03:00', stadiumId: 'dallas', group: 'J', stage: '小组赛J组', homeScore: 3, awayScore: 3, status: 'finished' },
+  { id: 'm62', homeTeamId: 'jordan', awayTeamId: 'argentina', homeTeamName: '约旦', awayTeamName: '阿根廷', date: '2026-06-27', time: '03:00', stadiumId: 'san-francisco', group: 'J', stage: '小组赛J组', homeScore: 1, awayScore: 3, status: 'finished' },
+  { id: 'm63', homeTeamId: 'colombia', awayTeamId: 'portugal', homeTeamName: '哥伦比亚', awayTeamName: '葡萄牙', date: '2026-06-27', time: '06:00', stadiumId: 'new-york', group: 'K', stage: '小组赛K组', homeScore: 0, awayScore: 0, status: 'finished' },
+  { id: 'm64', homeTeamId: 'dr-congo', awayTeamId: 'uzbekistan', homeTeamName: '民主刚果', awayTeamName: '乌兹别克斯坦', date: '2026-06-27', time: '06:00', stadiumId: 'boston', group: 'K', stage: '小组赛K组', homeScore: 3, awayScore: 1, status: 'finished' },
+  { id: 'm65', homeTeamId: 'panama', awayTeamId: 'england', homeTeamName: '巴拿马', awayTeamName: '英格兰', date: '2026-06-27', time: '09:00', stadiumId: 'philadelphia', group: 'L', stage: '小组赛L组', homeScore: 0, awayScore: 2, status: 'finished' },
+  { id: 'm66', homeTeamId: 'croatia', awayTeamId: 'ghana', homeTeamName: '克罗地亚', awayTeamName: '加纳', date: '2026-06-27', time: '09:00', stadiumId: 'vancouver', group: 'L', stage: '小组赛L组', homeScore: 2, awayScore: 1, status: 'finished' },
+
+  // === A/B/C 组第3轮 ===
+  { id: 'm67', homeTeamId: 'mexico', awayTeamId: 'czech', homeTeamName: '墨西哥', awayTeamName: '捷克', date: '2026-06-22', time: '15:00', stadiumId: 'estadio-azteca', group: 'A', stage: '小组赛A组', homeScore: 3, awayScore: 0, status: 'finished' },
+  { id: 'm68', homeTeamId: 'south-korea', awayTeamId: 'south-africa', homeTeamName: '韩国', awayTeamName: '南非', date: '2026-06-22', time: '15:00', stadiumId: 'guadalajara', group: 'A', stage: '小组赛A组', homeScore: 0, awayScore: 1, status: 'finished' },
+  { id: 'm69', homeTeamId: 'switzerland', awayTeamId: 'bosnia', homeTeamName: '瑞士', awayTeamName: '波黑', date: '2026-06-23', time: '15:00', stadiumId: 'vancouver', group: 'B', stage: '小组赛B组', homeScore: 2, awayScore: 0, status: 'finished' },
+  { id: 'm70', homeTeamId: 'canada', awayTeamId: 'qatar', homeTeamName: '加拿大', awayTeamName: '卡塔尔', date: '2026-06-23', time: '15:00', stadiumId: 'toronto', group: 'B', stage: '小组赛B组', homeScore: 3, awayScore: 0, status: 'finished' },
+  { id: 'm71', homeTeamId: 'brazil', awayTeamId: 'haiti', homeTeamName: '巴西', awayTeamName: '海地', date: '2026-06-24', time: '15:00', stadiumId: 'los-angeles', group: 'C', stage: '小组赛C组', homeScore: 3, awayScore: 0, status: 'finished' },
+  { id: 'm72', homeTeamId: 'morocco', awayTeamId: 'scotland', homeTeamName: '摩洛哥', awayTeamName: '苏格兰', date: '2026-06-24', time: '15:00', stadiumId: 'miami', group: 'C', stage: '小组赛C组', homeScore: 2, awayScore: 1, status: 'finished' },
+
+  // === 淘汰赛 1/16决赛 ===
+  { id: 'ko1', homeTeamId: 'south-africa', awayTeamId: 'canada', homeTeamName: '南非', awayTeamName: '加拿大', date: '2026-06-28', time: '15:00', stadiumId: 'los-angeles', group: 'round32', stage: '1/16决赛', homeScore: 0, awayScore: 1, status: 'finished' },
+  { id: 'ko2', homeTeamId: 'brazil', awayTeamId: 'japan', homeTeamName: '巴西', awayTeamName: '日本', date: '2026-06-29', time: '01:00', stadiumId: 'houston', group: 'round32', stage: '1/16决赛', homeScore: 2, awayScore: 1, status: 'finished' },
+  { id: 'ko3', homeTeamId: 'germany', awayTeamId: 'paraguay', homeTeamName: '德国', awayTeamName: '巴拉圭', date: '2026-06-29', time: '04:30', stadiumId: 'boston', group: 'round32', stage: '1/16决赛', homeScore: 1, awayScore: 1, status: 'finished' },
+  { id: 'ko4', homeTeamId: 'netherlands', awayTeamId: 'morocco', homeTeamName: '荷兰', awayTeamName: '摩洛哥', date: '2026-06-29', time: '09:00', stadiumId: 'monterrey', group: 'round32', stage: '1/16决赛', homeScore: 1, awayScore: 1, status: 'finished' },
+  { id: 'ko5', homeTeamId: 'ivory-coast', awayTeamId: 'norway', homeTeamName: '科特迪瓦', awayTeamName: '挪威', date: '2026-06-30', time: '01:00', stadiumId: 'dallas', group: 'round32', stage: '1/16决赛', homeScore: 1, awayScore: 2, status: 'finished' },
+  { id: 'ko6', homeTeamId: 'france', awayTeamId: 'sweden', homeTeamName: '法国', awayTeamName: '瑞典', date: '2026-06-30', time: '05:00', stadiumId: 'new-york', group: 'round32', stage: '1/16决赛', homeScore: 3, awayScore: 0, status: 'finished' },
+  { id: 'ko7', homeTeamId: 'mexico', awayTeamId: 'ecuador', homeTeamName: '墨西哥', awayTeamName: '厄瓜多尔', date: '2026-06-30', time: '09:00', stadiumId: 'estadio-azteca', group: 'round32', stage: '1/16决赛', homeScore: 2, awayScore: 0, status: 'finished' },
+  { id: 'ko8', homeTeamId: 'england', awayTeamId: 'dr-congo', homeTeamName: '英格兰', awayTeamName: '民主刚果', date: '2026-07-01', time: '00:00', stadiumId: 'atlanta', group: 'round32', stage: '1/16决赛', homeScore: 2, awayScore: 1, status: 'finished' },
+  { id: 'ko9', homeTeamId: 'belgium', awayTeamId: 'senegal', homeTeamName: '比利时', awayTeamName: '塞内加尔', date: '2026-07-01', time: '04:00', stadiumId: 'seattle', group: 'round32', stage: '1/16决赛', homeScore: 3, awayScore: 2, status: 'finished' },
+  { id: 'ko10', homeTeamId: 'usa', awayTeamId: 'bosnia', homeTeamName: '美国', awayTeamName: '波黑', date: '2026-07-02', time: '08:00', stadiumId: 'san-francisco', group: 'round32', stage: '1/16决赛', status: 'live' },
+  { id: 'ko11', homeTeamId: 'spain', awayTeamId: 'austria', homeTeamName: '西班牙', awayTeamName: '奥地利', date: '2026-07-03', time: '03:00', stadiumId: 'los-angeles', group: 'round32', stage: '1/16决赛', status: 'upcoming' },
+  { id: 'ko12', homeTeamId: 'portugal', awayTeamId: 'croatia', homeTeamName: '葡萄牙', awayTeamName: '克罗地亚', date: '2026-07-03', time: '07:00', stadiumId: 'toronto', group: 'round32', stage: '1/16决赛', status: 'upcoming' },
+  { id: 'ko13', homeTeamId: 'switzerland', awayTeamId: 'algeria', homeTeamName: '瑞士', awayTeamName: '阿尔及利亚', date: '2026-07-03', time: '11:00', stadiumId: 'vancouver', group: 'round32', stage: '1/16决赛', status: 'upcoming' },
+  { id: 'ko14', homeTeamId: 'australia', awayTeamId: 'egypt', homeTeamName: '澳大利亚', awayTeamName: '埃及', date: '2026-07-04', time: '02:00', stadiumId: 'dallas', group: 'round32', stage: '1/16决赛', status: 'upcoming' },
+  { id: 'ko15', homeTeamId: 'argentina', awayTeamId: 'cape-verde', homeTeamName: '阿根廷', awayTeamName: '佛得角', date: '2026-07-04', time: '06:00', stadiumId: 'miami', group: 'round32', stage: '1/16决赛', status: 'upcoming' },
+  { id: 'ko16', homeTeamId: 'colombia', awayTeamId: 'ghana', homeTeamName: '哥伦比亚', awayTeamName: '加纳', date: '2026-07-04', time: '09:30', stadiumId: 'kansas-city', group: 'round32', stage: '1/16决赛', status: 'upcoming' },
 ];
